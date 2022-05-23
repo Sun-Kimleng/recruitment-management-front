@@ -1,0 +1,40 @@
+:root{
+    --black: #0b0c10;
+    --brown: 
+}
+
+.my-navbar-child{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 50px;
+    width: 100%;
+    background-color: var(--black) !important;
+}
+
+.right-nav, .left-nav{
+    display: flex;
+    flex-direction: row;
+}
+
+.my-link{
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.my-link:hover{
+    color: grey;
+}
+.active{
+    color: grey;
+}
