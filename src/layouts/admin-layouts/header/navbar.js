@@ -1,5 +1,5 @@
-import {Container, Dropdown, DropdownButton, SplitButton} from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+
+import { NavLink, Link } from 'react-router-dom';
 import './navbar.css'
 
 const Navbar = () => {
@@ -8,13 +8,15 @@ const Navbar = () => {
            <div className="my-navbar-child">
 
                 <div className="left-nav">
-                    <NavLink to="" className="my-link"><div>Home</div></NavLink>
+                    <Link to="/" className="my-link"><div>Company Logo</div></Link>
                 </div>
 
                 <div className="right-nav">
-                    <NavLink to="" className="my-link"><div>Detail</div></NavLink>
-                    <NavLink to="" className="my-link"><div>Login</div></NavLink>
-
+                    <NavLink to="" className="my-link"><div>about us</div></NavLink>
+                    <NavLink to="/admin/login" className="my-link"><div>Login</div></NavLink>
+                    <NavLink to="/admin/register" className="my-link"><div>Register</div></NavLink>
+                    
+                    
                 </div>
 
            </div>    

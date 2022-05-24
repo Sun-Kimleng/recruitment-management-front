@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
+:root{
+  --black: #0b0c10;
+  --brown: #b1a296;
+  --blue: #66fcf1;
+}
+
 body{
   font-family: 'Lato', sans-serif;
 }
+

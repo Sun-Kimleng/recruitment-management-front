@@ -1,32 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
+import { category } from './category';
 import './sidebar.css'
 
-const category = [
-    {
-        section: 'CORE',
-        item: [
-            'Dashoard',
-            'Profile'
-        ]
-    },
-
-    {
-        section: 'INTERFACE',
-        item: [
-            'Layouts',
-            'Pages'
-        ]
-    },
-
-    {
-        section: 'ADDONS',
-        item: [
-            'Charts',
-            'Table'
-        ]
-    }
-        
-];
 const Sidebar = () => {
     return ( 
         <div className="sidebar">
@@ -35,7 +10,7 @@ const Sidebar = () => {
                 <div className="my-section-title">{cate.section}</div>
                 
                 {cate.item.map((item, index)=>(
-                <div className="my-section-item">
+                <div className="my-section-item" key={index}>
                     <div className="my-item" key={index}><NavLink className="my-navlink" to="">{item}</NavLink></div>
                     
                 </div>
