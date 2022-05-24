@@ -1,9 +1,10 @@
-import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
+import { TextField } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles'
+import { ApiKey } from '../../api/apiKey';
 
 export const CssTextField = styled(TextField)({
     '& label': {
-        color: 'white',
+        color: 'gray',
     },
     '& input': {
         color: 'white'
@@ -17,7 +18,7 @@ export const CssTextField = styled(TextField)({
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: 'white',
+        borderColor: 'gray',
         color: 'white',
       },
       '&:hover fieldset': {
@@ -30,3 +31,5 @@ export const CssTextField = styled(TextField)({
       },
     },
   });
+
+  
