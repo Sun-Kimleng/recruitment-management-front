@@ -9,6 +9,7 @@ import { create } from "@mui/material/styles/createTransitions";
 
 const initialState = {
     users: [],
+    adminError: []
 }
 
 export const AdminSlice = createSlice({
@@ -17,6 +18,13 @@ export const AdminSlice = createSlice({
     reducers: {
         createAdmin: (state, {payload})=>{
             state.users = payload
+        },
+
+        storeError: (state, {payload})=>{
+            state.adminError = payload
+        },
+        clearError: (state)=>{
+            state.adminError = [];
         }
     },
     extraReducers: {
@@ -24,7 +32,8 @@ export const AdminSlice = createSlice({
     }
 });
 
-export const {createAdmin} = AdminSlice.actions;
+export const {createAdmin, storeError, clearError} = AdminSlice.actions;
 export default AdminSlice.reducer;
 
 export const getUser = (state)=>state.admin.users;
+export const getError = (state)=>state.admin.adminError;

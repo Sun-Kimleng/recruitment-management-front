@@ -1,6 +1,7 @@
 .my-login{
+    z-index: 1;
     position: relative;
-    top: 100px;
+    top: 80px;
     margin: 0 auto;
     width: 450px;
     padding: 50px;
