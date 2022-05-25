@@ -2,7 +2,7 @@
     position: relative;
     top: 100px;
     margin: 0 auto;
-    width: 450px;
+    width: 420px;
     padding: 50px;
     border-radius: 10px;
     background-color: var(--black);
@@ -11,7 +11,7 @@
 .admin-register-form{
     
     width: 100%;
-    height: 470px;
+    height: 500px;
 }
 .text-field{
     margin: 0 auto !important;
