@@ -22,6 +22,9 @@
     display: flex;
     flex-direction: row;
 }
+.right-nav{
+    margin-right: 60px;
+}
 
 .my-link{
     text-decoration: none;

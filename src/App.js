@@ -7,22 +7,34 @@ import Sidebar from './layouts/admin-layouts/sidebar/sidebar';
 import Login from './admin/login/login';
 import Home from './admin/home/home';
 import Dashboard from './admin/dashboard/dashboard';
-import { useDispatch } from 'react-redux';
-import { setIsClose } from './features/navbarSlice/navbarSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIsOpen, setIsClose, setIsOpen } from './features/navbarSlice/navbarSlice';
 import SidebarOutlet from './layouts/admin-layouts/sidebar/sidebarOutlet';
-
+import { getAuthToken } from './features/adminSlice/adminSlice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faCircleChevronDown} from '@fortawesome/free-solid-svg-icons'
 
 
 
 function App() {
   const dispatch = useDispatch();
+  const isOpen = useSelector(getIsOpen);
+
+  const token = useSelector(getAuthToken);
+   let snackbar;
+   let triggerSnackbar;
+  if(token){
+    snackbar = (<>{isOpen && <div className="snackbar"></div>}</>)
+    triggerSnackbar=(<><FontAwesomeIcon className='snackbar-trigger' onClick={()=>dispatch(setIsOpen())} icon={faCircleChevronDown} /></>)
+  }
+
   return (
     <div className="App" >
-      
+        {snackbar}
+        {triggerSnackbar}
         <Navbar />
-
         {/* All Routes */}
-     
+        <div onClick={()=>dispatch(setIsClose())}>
         <Routes>
           
           <Route path="/" element={<Home />}/>
@@ -37,7 +49,7 @@ function App() {
             
       
         </Routes>
-        
+        </div>
         {/* All Routes */}
 
 

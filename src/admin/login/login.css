@@ -40,15 +40,7 @@ input:-webkit-autofill:active  {
     width: 100%;
 }
 
-.snackbar{
-    position: fixed;
-    right:10px;
-    top:60px;
-    width: 300px;
-    height: 600px;
-    border-radius: 10px;
-    background-color: var(--black);
-}
+
 
 @media only screen and (max-width: 650px) {
     .my-login{

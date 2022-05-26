@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
 import { getAuthToken } from '../../../features/adminSlice/adminSlice';
-import { getIsOpen, setIsOpen } from '../../../features/navbarSlice/navbarSlice';
+import { getIsOpen, setIsClose, setIsOpen } from '../../../features/navbarSlice/navbarSlice';
 import './navbar.css';
 
 
@@ -11,7 +11,10 @@ const Navbar = () => {
 
     const token = useSelector(getAuthToken);
     const dispatch = useDispatch();
+
+
     const isOpen = useSelector(getIsOpen);
+
     console.log(isOpen)
     const handleMenu = ()=>{
         dispatch(setIsOpen());
@@ -34,7 +37,7 @@ if(!token){
 }
 
     return ( 
-        <div className="my-navbar">
+        <div className="my-navbar" onClick={()=>dispatch(setIsClose())}>
             
            <div className="my-navbar-child">
 
