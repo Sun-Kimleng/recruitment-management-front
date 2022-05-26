@@ -9,7 +9,10 @@ import { create } from "@mui/material/styles/createTransitions";
 
 const initialState = {
     users: [],
-    adminError: []
+    auth_username: '',
+    auth_token: '',
+    registerError: '',
+    loginError: [],
 }
 
 export const AdminSlice = createSlice({
@@ -19,21 +22,42 @@ export const AdminSlice = createSlice({
         createAdmin: (state, {payload})=>{
             state.users = payload
         },
-
-        storeError: (state, {payload})=>{
-            state.adminError = payload
+        storeRegisterError: (state, {payload})=>{
+            state.registerError = payload;
+        }
+        ,
+        storeLoginError: (state, {payload})=>{
+            state.loginError = payload
         },
         clearError: (state)=>{
-            state.adminError = [];
-        }
+            state.loginError = [];
+            state.registerError= [];
+        },
+        setAuthUsername: (state, {payload})=>{
+            state.auth_username = payload;
+        },
+        setAuthtoken: (state, {payload})=>{
+            state.auth_token = payload;
+        },
+        
     },
     extraReducers: {
        
     }
 });
 
-export const {createAdmin, storeError, clearError} = AdminSlice.actions;
+export const {
+    createAdmin, 
+    storeRegisterError, 
+    storeLoginError, 
+    clearError,
+    setAuthUsername,
+    setAuthtoken,
+} = AdminSlice.actions;
 export default AdminSlice.reducer;
 
 export const getUser = (state)=>state.admin.users;
-export const getError = (state)=>state.admin.adminError;
+export const getLoginError = (state)=>state.admin.loginError;
+export const getRegisterError =(state)=>state.admin.registerError;
+export const getAuthUsername = (state)=>state.admin.auth_username;
+export const getAuthToken = (state)=>state.admin.auth_token;

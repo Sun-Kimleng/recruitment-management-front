@@ -5,7 +5,7 @@ import {Button, Form} from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux'
-import { asyncCreateAdmin, clearError, getError, storeError } from '../../features/adminSlice/adminSlice';
+import { asyncCreateAdmin, clearError, storeRegisterError, getRegisterError } from '../../features/adminSlice/adminSlice';
 import axios from 'axios';
 import { ApiKey } from '../../api/apiKey';
 import { CreateUserKey } from '../../api/admin/userkey';
@@ -18,7 +18,7 @@ const AdminRegister = () => {
 
 const dispatch = useDispatch();
 const navigate = useNavigate();
-const error = useSelector(getError);
+const error = useSelector(getRegisterError);
 
 
 
@@ -42,7 +42,7 @@ const [registerInput, setRegisterInput]= useState({
 
 //handle input
 const handleInput = (e)=>{
-   
+    
     setRegisterInput({...registerInput, [e.target.name]: e.target.value});
 }
 //redux asycn call
@@ -72,7 +72,7 @@ const handleSubmit =async (e) =>{
 
           dispatch(clearError);
     }else{
-        dispatch(storeError(response.data.error));
+        dispatch(storeRegisterError(response.data.error));
     }
 }
     return ( 

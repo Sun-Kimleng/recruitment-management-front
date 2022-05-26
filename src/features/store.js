@@ -20,7 +20,7 @@ import {
     key: 'root',
     version: 1,
     //exception state
-    blacklist: ['users', 'adminError'],
+    blacklist: ['users', 'registerError', 'loginError'],
     storage,
   }
   

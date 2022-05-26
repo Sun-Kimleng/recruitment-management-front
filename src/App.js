@@ -23,8 +23,8 @@ function App() {
           <Route path="/admin/register" element={<AdminRegister />}/>
           <Route path="/admin/login" element={<Login />}/>
    
-            <Route element={<SidebarOutlet />}>
-              <Route path="/admin/dashboard" element={<Dashboard />} />  
+            <Route path='admin'element={<Sidebar />}>
+              <Route path="dashboard" element={<Dashboard />} />  
             </Route>
       
   
