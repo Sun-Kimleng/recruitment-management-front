@@ -37,9 +37,11 @@ const Login = () => {
         setInputs({...inputs, [e.target.name]: e.target.value});
     }
 
+    const [isPending, setIsPending]= useState(false);
     const error = useSelector(getLoginError);
     const handleSubmit = async(e)=>{
         e.preventDefault();
+        setIsPending(true);
 
         const data = {email: inputs.email, password: inputs.password};
         const response = await axios.post(`${ApiKey}${LoginUserKey}`, data, apiHeaders);
@@ -57,6 +59,7 @@ const Login = () => {
                       window.location.reload();
                   }
               });
+            setIsPending(false);
         }if(response.data.status === 404){
             Swal.fire({
                 icon: 'error',
@@ -64,9 +67,11 @@ const Login = () => {
                 text: response.data.message,
             
               })
+              setIsPending(false);
         }
         else{
             dispatch(storeLoginError(response.data.error));
+            setIsPending(false);
         }
     }
 
@@ -78,7 +83,7 @@ const Login = () => {
                 <MyTextField onChange={handleInput} error={error.email?true:false} helperText={error.email?error.email:''} value={inputs.email} className="text-field" name="email"  label="Enter your email" variant="outlined"/><br /><br />
                 <MyTextField onChange={handleInput} error={error.password? true:false} helperText={error.password?error.password:''}value={inputs.password} type={isShowPassword?'text':'password'} className="text-field" name="password"  label="Enter new password" variant="outlined"/><br /><br />
                 <Form.Check onChange={handleShowAndHidePassword} type="checkbox" label="Show password" style={{color:'white'}} /><br />
-                <Button className="my-btn-submit" type="submit" variant="primary">Login</Button>
+                <Button disabled={isPending?true:false} className="my-btn-submit" type="submit" variant="primary">{isPending?'Logging in.....':'Login'}</Button>
             </form>
         </div>
      );

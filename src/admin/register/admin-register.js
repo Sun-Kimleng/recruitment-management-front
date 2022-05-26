@@ -48,13 +48,13 @@ const handleInput = (e)=>{
 }
 //redux asycn call
 
-
+const [isPending, setIsPending]= useState(false);
 //handle output
 const handleSubmit =async (e) =>{
     e.preventDefault();
     const data= {email: registerInput.email, username: registerInput.username, password: registerInput.password, confirmPassword: registerInput.confirmPassword};
     
-
+    setIsPending(true);
     const response = await axios.post(`${ApiKey}${CreateUserKey}`, data, apiHeaders);
 
     if(response.data.status === 200){
@@ -67,9 +67,10 @@ const handleSubmit =async (e) =>{
                 navigate('/admin/login');
               }
           })
-
+          setIsPending(false);
           dispatch(clearError);
     }else{
+        setIsPending(false);
         dispatch(storeRegisterError(response.data.error));
     }
 }
@@ -80,10 +81,10 @@ const handleSubmit =async (e) =>{
                 <MyTextField onChange={handleInput} error={error.username?true:false} helperText={error.username?error.username:""} value={registerInput.username} className="text-field" name="username" label="Enter new username" variant="outlined"/> <br /><br />
                 <MyTextField onChange={handleInput} error={error.email?true:false} helperText={error.email?error.email:""} value={registerInput.email} className="text-field" name="email"  label="Enter your email" variant="outlined"/><br /><br />
                 <MyTextField onChange={handleInput} error={error.password?true:false} helperText={error.password?error.password:""} value={registerInput.password} type={isShowPassword?'text':'password'} className="text-field" name="password"  label="Enter new password" variant="outlined"/><br /><br />
-                <MyTextField onChange={handleInput} error={error.confirmPassword?true:false} helperText={error.username?error.confirmPassword:""} value={registerInput.confirmPassword} type={isShowPassword?'text':'password'} className="text-field" name="confirmPassword"  label="Confirm password" variant="outlined"/><br /><br />
+                <MyTextField onChange={handleInput} error={error.confirmPassword?true:false} helperText={error.confirmPassword?error.confirmPassword:""} value={registerInput.confirmPassword} type={isShowPassword?'text':'password'} className="text-field" name="confirmPassword"  label="Confirm password" variant="outlined"/><br /><br />
                 <Form.Check onChange={handleShowAndHidePassword} type="checkbox" label="Show password" style={{color:'white'}} /><br />
                 <Link to="/admin/login" className='already-have-account'>Already have an account?</Link><br /><br />
-                <Button className="my-btn-submit" type="submit" variant="primary">Register</Button>
+                <Button disabled={isPending?true:false} className="my-btn-submit" type="submit" variant="primary">{isPending?'Registering....':'Register'}</Button>
                 
             </form>
             
