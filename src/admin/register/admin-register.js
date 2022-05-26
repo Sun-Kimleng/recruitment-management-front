@@ -4,6 +4,7 @@ import { CssTextField } from '../../common/material/CssTextField';
 import {Button, Form} from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import {apiHeaders} from '../../api/apiHeaders';
 import {useDispatch, useSelector} from 'react-redux'
 import { asyncCreateAdmin, clearError, storeRegisterError, getRegisterError } from '../../features/adminSlice/adminSlice';
 import axios from 'axios';
@@ -52,12 +53,9 @@ const handleInput = (e)=>{
 const handleSubmit =async (e) =>{
     e.preventDefault();
     const data= {email: registerInput.email, username: registerInput.username, password: registerInput.password, confirmPassword: registerInput.confirmPassword};
-    const headers= {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-        }
+    
 
-    const response = await axios.post(`${ApiKey}${CreateUserKey}`, data, headers);
+    const response = await axios.post(`${ApiKey}${CreateUserKey}`, data, apiHeaders);
 
     if(response.data.status === 200){
         Swal.fire({

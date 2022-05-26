@@ -1,5 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
 import AdminReducer from './adminSlice/adminSlice'
+import NavbarReducer from './navbarSlice/navbarSlice'
 
 import {
     persistStore,
@@ -20,15 +21,17 @@ import {
     key: 'root',
     version: 1,
     //exception state
-    blacklist: ['users', 'registerError', 'loginError'],
+    blacklist: ['users', 'registerError', 'loginError', 'isOpen'],
     storage,
   }
   
   const adminPersistedReducer = persistReducer(persistConfig, AdminReducer);
+  const NavbarPersistedReducer = persistReducer(persistConfig, NavbarReducer)
 
 export const store = configureStore({
     reducer: {
         admin: adminPersistedReducer,
+        Navbar: NavbarPersistedReducer
     },
     middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
