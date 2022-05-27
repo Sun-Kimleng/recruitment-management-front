@@ -1,9 +1,15 @@
 
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, Link } from 'react-router-dom';
-import { getAuthToken } from '../../../features/adminSlice/adminSlice';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { Logout } from '../../../api/admin/userkey';
+import { apiAuthorizationLogout } from '../../../api/apiHeaders';
+import { ApiKey } from '../../../api/apiKey';
+import { getAuthToken, setAuthtoken, setAuthUsername } from '../../../features/adminSlice/adminSlice';
 import { getIsOpen, setIsClose, setIsOpen } from '../../../features/navbarSlice/navbarSlice';
 import './navbar.css';
+
 
 
 
@@ -11,14 +17,31 @@ const Navbar = () => {
 
     const token = useSelector(getAuthToken);
     const dispatch = useDispatch();
+    const navigate=useNavigate();
 
 
     const isOpen = useSelector(getIsOpen);
+    
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token? `Bearer ${token}`: ''
+        }
+    }
+    const handleLogout = async()=>{
 
-    console.log(isOpen)
-    const handleMenu = ()=>{
-        dispatch(setIsOpen());
-        console.log('hello')
+        const response = await axios.post(`${ApiKey}${Logout}`,{},config)
+
+        if(response.data.status == 200){
+            dispatch(setAuthtoken(''));
+            dispatch(setAuthUsername(''));
+            navigate('/admin/login')
+            Swal.fire({
+                title: 'Attention!',
+                icon: 'info',
+                text: "You\'ve been logged out"
+              })
+        }
     }
     let rightBar;
 
@@ -31,7 +54,7 @@ if(!token){
     );   
 }else{
     rightBar = <><NavLink to="" className="my-link"><div>about us</div></NavLink>
-    <div className="my-link" ><div onClick={handleMenu}>Logout</div></div>
+    <div className="my-link" ><div onClick={handleLogout}>Logout</div></div>
     {isOpen && <div className="snackbar"></div>}
     </>
 }

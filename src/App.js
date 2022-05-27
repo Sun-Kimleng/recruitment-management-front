@@ -1,5 +1,5 @@
 
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import AdminRegister from './admin/register/admin-register';
 import Navbar from './layouts/admin-layouts/header/navbar';
 import './App.css'
@@ -13,6 +13,9 @@ import SidebarOutlet from './layouts/admin-layouts/sidebar/sidebarOutlet';
 import { getAuthToken } from './features/adminSlice/adminSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCircleChevronDown} from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios';
+import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 
 
@@ -28,6 +31,7 @@ function App() {
     triggerSnackbar=(<><FontAwesomeIcon className='snackbar-trigger' onClick={()=>dispatch(setIsOpen())} icon={faCircleChevronDown} /></>)
   }
 
+
   return (
     <div className="App" >
         {snackbar}
@@ -38,10 +42,10 @@ function App() {
         <Routes>
           
           <Route path="/" element={<Home />}/>
-          <Route path="/admin/register" element={<AdminRegister />}/>
-          <Route path="/admin/login" element={<Login />}/>
+          <Route path="/admin/register" element={token ?<Navigate to="/admin/dashboard" replace/>:<AdminRegister />}/>
+          <Route path="/admin/login" element={token ?<Navigate to="/admin/dashboard" replace/>:<Login />}/>
             
-            <Route element={<SidebarOutlet />} >
+            <Route element={token?<SidebarOutlet />:<Navigate to="/admin/login" />} >
               
               <Route path="/admin/dashboard" element={<Dashboard />} />  
             

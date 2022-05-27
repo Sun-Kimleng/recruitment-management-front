@@ -1,7 +1,5 @@
-import { useSelect, useSlider } from "@mui/base";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import { getIsOpen, setIsClose } from "../../../features/navbarSlice/navbarSlice";
 import Sidebar from "./sidebar";
 
@@ -15,6 +13,8 @@ const SidebarOutlet = () => {
             dispatch(setIsClose())
         }
     }
+
+    
     return ( 
     <div onClick={handleIsOpen}>
         <Sidebar />
