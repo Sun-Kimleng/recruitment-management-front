@@ -2,13 +2,27 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CreateUserKey } from "../../api/admin/userkey";
 import { ApiKey } from "../../api/apiKey";
-import {axios} from 'axios';
+import axios from 'axios';
 import { create } from "@mui/material/styles/createTransitions";
+import { config } from "@fortawesome/fontawesome-svg-core";
 
+export const asyncCheckAuth = createAsyncThunk('admin/asyncCheckAuth',async (token)=>{
 
+    const config = {
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.get(`${ApiKey}/user/checkAuth`,{},config);
+
+    return response.data;
+});
 
 const initialState = {
     users: [],
+    checkAuth: false, 
     auth_username: '',
     auth_token: '',
     registerError: '',
@@ -42,7 +56,16 @@ export const AdminSlice = createSlice({
         
     },
     extraReducers: {
-       
+       [asyncCheckAuth.fulfilled]: (state, {payload})=>{
+                state.checkAuth = true;
+                console.log('authenticated');
+            
+       },
+       [asyncCheckAuth.rejected]: (state, {payload})=>{
+            state.checkAuth = false;
+            console.log('unAuth');
+       }
+
     }
 });
 
@@ -61,3 +84,4 @@ export const getLoginError = (state)=>state.admin.loginError;
 export const getRegisterError =(state)=>state.admin.registerError;
 export const getAuthUsername = (state)=>state.admin.auth_username;
 export const getAuthToken = (state)=>state.admin.auth_token;
+export const getCheckAuth = (state)=>state.admin.checkAuth;

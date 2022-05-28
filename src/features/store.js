@@ -13,6 +13,7 @@ import {
     REGISTER,
   } from 'redux-persist'
   import storage from 'redux-persist/lib/storage'
+  import storageSession from 'redux-persist/lib/storage/session'
   import { PersistGate } from 'redux-persist/integration/react'
 
 
@@ -25,6 +26,14 @@ import {
     storage,
   }
   
+  const persistConfigSession ={
+    key: 'user',
+    version: 1,
+    //exception state
+    blacklist: ['users', 'registerError', 'loginError', 'isOpen'],
+    storage: storageSession,
+  }
+
   const adminPersistedReducer = persistReducer(persistConfig, AdminReducer);
   const NavbarPersistedReducer = persistReducer(persistConfig, NavbarReducer)
 
