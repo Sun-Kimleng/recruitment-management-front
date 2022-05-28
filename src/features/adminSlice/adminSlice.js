@@ -15,7 +15,7 @@ export const asyncCheckAuth = createAsyncThunk('admin/asyncCheckAuth',async (tok
         }
     }
 
-    const response = await axios.get(`${ApiKey}/user/checkAuth`,{},config);
+    const response = await axios.get(`${ApiKey}/api/user/checkAuth`,config);
 
     return response.data;
 });
@@ -57,13 +57,18 @@ export const AdminSlice = createSlice({
     },
     extraReducers: {
        [asyncCheckAuth.fulfilled]: (state, {payload})=>{
-                state.checkAuth = true;
-                console.log('authenticated');
+           if(payload.status == 200){
+            state.checkAuth = true;
+            console.log('authenticated');
+           }else{
+            state.checkAuth = false;
+           }
+                
             
        },
        [asyncCheckAuth.rejected]: (state, {payload})=>{
-            state.checkAuth = false;
-            console.log('unAuth');
+          
+         
        }
 
     }
