@@ -24,7 +24,7 @@ export const asyncCheckAuth = createAsyncThunk('admin/asyncCheckAuth',async (tok
 
 const initialState = {
     users: [],
-   
+    auth: false,
     auth_username: '',
     auth_token: '',
     registerError: '',
@@ -55,6 +55,12 @@ export const AdminSlice = createSlice({
         setAuthtoken: (state, {payload})=>{
             state.auth_token = payload;
         },
+        setAuthFalse: (state)=>{
+            state.auth = false;
+        },
+        setAuthTrue: (state)=>{
+            state.auth = true
+        }
         
     },
     extraReducers: {
@@ -77,6 +83,8 @@ export const {
     clearError,
     setAuthUsername,
     setAuthtoken,
+    setAuthFalse,
+    setAuthTrue,
 } = AdminSlice.actions;
 export default AdminSlice.reducer;
 
@@ -85,4 +93,4 @@ export const getLoginError = (state)=>state.admin.loginError;
 export const getRegisterError =(state)=>state.admin.registerError;
 export const getAuthUsername = (state)=>state.admin.auth_username;
 export const getAuthToken = (state)=>state.admin.auth_token;
-export const getCheckAuth = (state)=>state.admin.checkAuth;
+export const getAuth = (state)=>state.admin.auth;

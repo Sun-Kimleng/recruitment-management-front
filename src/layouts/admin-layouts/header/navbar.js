@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { Logout } from '../../../api/admin/userkey';
 import { apiAuthorizationLogout } from '../../../api/apiHeaders';
 import { ApiKey } from '../../../api/apiKey';
-import { getAuthToken, setAuthtoken, setAuthUsername } from '../../../features/adminSlice/adminSlice';
+import { getAuth, getAuthToken, setAuthtoken, setAuthUsername } from '../../../features/adminSlice/adminSlice';
 import { getIsOpen, setIsClose, setIsOpen } from '../../../features/navbarSlice/navbarSlice';
 import './navbar.css';
 
@@ -16,6 +16,7 @@ import './navbar.css';
 const Navbar = () => {
 
     const token = useSelector(getAuthToken);
+    const auth = useSelector(getAuth);
     const dispatch = useDispatch();
     const navigate=useNavigate();
 
@@ -31,12 +32,14 @@ const Navbar = () => {
     const handleLogout = async()=>{
 
         const response = await axios.post(`${ApiKey}${Logout}`,{},config)
+        .catch(error=>{
+            console.log(error.response);
+        });
 
         if(response.data.status == 200){
-            navigate('/admin/login');
+            navigate('/admin/login', {replace: true});
             dispatch(setAuthtoken(''));
             dispatch(setAuthUsername(''));
-            
             Swal.fire({
                 title: 'Attention!',
                 icon: 'info',
@@ -45,19 +48,19 @@ const Navbar = () => {
         }
     }
     let rightBar;
-
-if(!token){
+if(token && auth){
+    rightBar = (<><NavLink to="" className="my-link"><div>about us</div></NavLink>
+    <div className="my-link" ><div onClick={handleLogout}>Logout</div></div>
+    {isOpen && <div className="snackbar"></div>}
+    </>);
+    
+}else{
     rightBar = ( 
         <>
         <NavLink to="/admin/login" className="my-link"><div>Login</div></NavLink>
         <NavLink to="/admin/register" className="my-link"><div>Register</div></NavLink>
         </>
     );   
-}else{
-    rightBar = <><NavLink to="" className="my-link"><div>about us</div></NavLink>
-    <div className="my-link" ><div onClick={handleLogout}>Logout</div></div>
-    {isOpen && <div className="snackbar"></div>}
-    </>
 }
 
     return ( 

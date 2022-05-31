@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 import './login.css';
 
-import { storeLoginError, getLoginError, setAuthtoken, setAuthUsername } from '../../features/adminSlice/adminSlice';
+import { storeLoginError, getLoginError, setAuthtoken, setAuthUsername, clearError } from '../../features/adminSlice/adminSlice';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,23 +39,29 @@ const Login = () => {
     }
 
     const [isPending, setIsPending]= useState(false);
-    const error = useSelector(getLoginError);
+    const [error, setError]=useState(['']);
     const handleSubmit = async(e)=>{
         e.preventDefault();
         setIsPending(true);
 
         const data = {email: inputs.email, password: inputs.password};
-        const response = await axios.post(`${ApiKey}${LoginUserKey}`, data, apiHeaders);
+        const response = await axios.post(`${ApiKey}${LoginUserKey}`, data, apiHeaders)
+        .catch(error=>{
+        });
+        
 
         if(response.data.status === 200){
+        
             dispatch(setAuthUsername(response.data.username));
             dispatch(setAuthtoken(response.data.token));
+
+            navigate('/admin/dashboard');
+            Swal.fire({
+                icon: 'success',
+                title: 'Successful logged in',
+                text: response.data.message,
             
-              navigate('/admin/dashboard', { replace: true });
-              window.location.reload();
-              setTimeout(()=>{
-                
-              }, 1000);
+              })
              
             setIsPending(false);
         }if(response.data.status === 404){
@@ -68,7 +74,7 @@ const Login = () => {
               setIsPending(false);
         }
         else{
-            dispatch(storeLoginError(response.data.error));
+            setError(response.data.error);
             setIsPending(false);
         }
     }

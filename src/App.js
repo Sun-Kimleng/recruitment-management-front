@@ -10,7 +10,7 @@ import Dashboard from './admin/dashboard/dashboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsOpen, setIsClose, setIsOpen } from './features/navbarSlice/navbarSlice';
 import SidebarOutlet from './layouts/admin-layouts/sidebar/sidebarOutlet';
-import { asyncCheckAuth, getAuthToken,setAuthtoken, setAuthUsername } from './features/adminSlice/adminSlice';
+import { asyncCheckAuth, getAuth, getAuthToken,setAuth,setAuthFalse,setAuthtoken, setAuthTrue, setAuthUsername } from './features/adminSlice/adminSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCircleChevronDown} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
@@ -23,13 +23,13 @@ axios.defaults.withCredentials = true;
 function App() {
   const dispatch = useDispatch();
   const isOpen = useSelector(getIsOpen);
-
+  const auth = useSelector(getAuth);
   
   const token = useSelector(getAuthToken);
    let snackbar;
    let triggerSnackbar;
 
-   const [auth,setAuth]= useState(false);
+   
     const checkAuthFunc = async() =>{
       const config = {
         headers: {
@@ -42,26 +42,28 @@ function App() {
     .then(
       response=>{
         if(response.status == 200){
-          console.log(response.data);
-          setAuth(true);
+          dispatch(setAuthTrue());
         }
-        
       }
-    );
+    ).catch(error=>{
+      dispatch(setAuthFalse());
+      dispatch(setAuthtoken(''));
+      dispatch(setAuthUsername(''));
+      console.log('Un-Authenticate')
+    });
 
     }
 
     useEffect(()=>{
       checkAuthFunc();
       return ()=>{
-        setAuth(false);
+        setAuthFalse();
+       
       }
-    },
-    []);
+    }, [token]);
 
-    console.log(auth);
 
-  if(token){
+  if(token && auth){
     snackbar = (<>{isOpen && <div className="snackbar"></div>}</>)
     triggerSnackbar=(<><FontAwesomeIcon className='snackbar-trigger' onClick={()=>dispatch(setIsOpen())} icon={faCircleChevronDown} /></>)
   }
@@ -76,10 +78,10 @@ function App() {
         <Routes>
           
           <Route path="/" element={<Home />}/>
-          <Route path="/admin/register" element={token ?<Navigate to="/admin/dashboard" replace/>:<AdminRegister />}/>
-          <Route path="/admin/login" element={token ?<Navigate to="/admin/dashboard" replace/>:<Login />}/>
+          <Route path="/admin/register" element={token && auth?<Navigate to="/admin/dashboard" replace/>:<AdminRegister />}/>
+          <Route path="/admin/login" element={token && auth?<Navigate to="/admin/dashboard" replace/>:<Login />}/>
             
-            <Route element={token?<SidebarOutlet />:<Navigate to="/admin/login" />} >
+            <Route element={token && auth?<SidebarOutlet />:<Navigate to="/admin/login" />} >
               
               <Route path="/admin/dashboard" element={<Dashboard />} />  
             
