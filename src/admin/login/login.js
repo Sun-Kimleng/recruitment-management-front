@@ -33,6 +33,7 @@ const Login = () => {
         password: '',
     });
     
+
     const handleInput=(e)=>{
         setInputs({...inputs, [e.target.name]: e.target.value});
     }
@@ -49,16 +50,13 @@ const Login = () => {
         if(response.data.status === 200){
             dispatch(setAuthUsername(response.data.username));
             dispatch(setAuthtoken(response.data.token));
-            Swal.fire({
-                icon: 'success',
-                title: 'You\'ve been Succesful logged in',
-                text: 'Go to dashboard',
-              }).then((answer)=>{
-                  if(answer.isConfirmed){
-                      navigate('/admin/dashboard', { replace: true });
-                      window.location.reload();
-                  }
-              });
+            
+              navigate('/admin/dashboard', { replace: true });
+              window.location.reload();
+              setTimeout(()=>{
+                
+              }, 1000);
+             
             setIsPending(false);
         }if(response.data.status === 404){
             Swal.fire({

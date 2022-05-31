@@ -10,41 +10,61 @@ import Dashboard from './admin/dashboard/dashboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsOpen, setIsClose, setIsOpen } from './features/navbarSlice/navbarSlice';
 import SidebarOutlet from './layouts/admin-layouts/sidebar/sidebarOutlet';
-import { asyncCheckAuth, getAuthToken, getCheckAuth, setAuthtoken, setAuthUsername } from './features/adminSlice/adminSlice';
+import { asyncCheckAuth, getAuthToken,setAuthtoken, setAuthUsername } from './features/adminSlice/adminSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCircleChevronDown} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import { ApiKey } from './api/apiKey';
 
 axios.defaults.withCredentials = true;
 
 function App() {
   const dispatch = useDispatch();
   const isOpen = useSelector(getIsOpen);
-  const checkAuth = useSelector(getCheckAuth);
 
+  
   const token = useSelector(getAuthToken);
    let snackbar;
    let triggerSnackbar;
 
-   useEffect(()=>{
-    dispatch(asyncCheckAuth(token));
-    
-   },[]);
-
-   console.log(checkAuth);
-    if(checkAuth == false){
-      dispatch(setAuthtoken(''));
-      dispatch(setAuthUsername(''));
+   const [auth,setAuth]= useState(false);
+    const checkAuthFunc = async() =>{
+      const config = {
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
     }
+
+    await axios.get(`${ApiKey}/api/user/checkAuth`,config)
+    .then(
+      response=>{
+        if(response.status == 200){
+          console.log(response.data);
+          setAuth(true);
+        }
+        
+      }
+    );
+
+    }
+
+    useEffect(()=>{
+      checkAuthFunc();
+      return ()=>{
+        setAuth(false);
+      }
+    },
+    []);
+
+    console.log(auth);
 
   if(token){
     snackbar = (<>{isOpen && <div className="snackbar"></div>}</>)
     triggerSnackbar=(<><FontAwesomeIcon className='snackbar-trigger' onClick={()=>dispatch(setIsOpen())} icon={faCircleChevronDown} /></>)
   }
-
-
 
   return (
     <div className="App" >

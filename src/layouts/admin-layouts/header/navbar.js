@@ -33,9 +33,10 @@ const Navbar = () => {
         const response = await axios.post(`${ApiKey}${Logout}`,{},config)
 
         if(response.data.status == 200){
+            navigate('/admin/login');
             dispatch(setAuthtoken(''));
             dispatch(setAuthUsername(''));
-            navigate('/admin/login')
+            
             Swal.fire({
                 title: 'Attention!',
                 icon: 'info',
