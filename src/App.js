@@ -49,7 +49,7 @@ function App() {
       dispatch(setAuthFalse());
       dispatch(setAuthtoken(''));
       dispatch(setAuthUsername(''));
-      console.log('Un-Authenticate')
+      console.clear();
     });
 
     }
