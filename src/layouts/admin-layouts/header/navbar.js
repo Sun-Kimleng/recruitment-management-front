@@ -49,17 +49,17 @@ const Navbar = () => {
     }
     let rightBar;
 if(token && auth){
-    rightBar = (<><NavLink to="" className="my-link"><div>about us</div></NavLink>
+    rightBar = (<div className='right-nav' style={{marginRight: '40px'}}><NavLink to="" className="my-link"><div>about us</div></NavLink>
     <div className="my-link" ><div onClick={handleLogout}>Logout</div></div>
     {isOpen && <div className="snackbar"></div>}
-    </>);
+    </div>);
     
 }else{
     rightBar = ( 
-        <>
+        <div className='right-nav'>
         <NavLink to="/admin/login" className="my-link"><div>Login</div></NavLink>
         <NavLink to="/admin/register" className="my-link"><div>Register</div></NavLink>
-        </>
+        </div>
     );   
 }
 
@@ -72,10 +72,10 @@ if(token && auth){
                     <Link to="/" className="my-link"><div>Company Logo</div></Link>
                 </div>
 
-                <div className="right-nav">
+                {/* <div className="right-nav"> */}
                     
                     {rightBar}
-                </div>
+                {/* </div> */}
 
            </div>    
         </div>
