@@ -27,6 +27,7 @@ const initialState = {
     auth: false,
     auth_username: '',
     auth_token: '',
+    verification_token:'',
     registerError: '',
     loginError: [],
 }
@@ -60,6 +61,9 @@ export const AdminSlice = createSlice({
         },
         setAuthTrue: (state)=>{
             state.auth = true
+        },
+        setVerificationToken: (state, {payload})=>{
+            state.verification_token = payload
         }
         
     },
@@ -85,6 +89,7 @@ export const {
     setAuthtoken,
     setAuthFalse,
     setAuthTrue,
+    setVerificationToken,
 } = AdminSlice.actions;
 export default AdminSlice.reducer;
 
@@ -94,3 +99,4 @@ export const getRegisterError =(state)=>state.admin.registerError;
 export const getAuthUsername = (state)=>state.admin.auth_username;
 export const getAuthToken = (state)=>state.admin.auth_token;
 export const getAuth = (state)=>state.admin.auth;
+export const getVerificationToken = (state)=>state.admin.verification_token;

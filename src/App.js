@@ -10,13 +10,15 @@ import Dashboard from './admin/dashboard/dashboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsOpen, setIsClose, setIsOpen } from './features/navbarSlice/navbarSlice';
 import SidebarOutlet from './layouts/admin-layouts/sidebar/sidebarOutlet';
-import { asyncCheckAuth, getAuth, getAuthToken,setAuth,setAuthFalse,setAuthtoken, setAuthTrue, setAuthUsername } from './features/adminSlice/adminSlice';
+import { asyncCheckAuth, getAuth, getAuthToken,getVerificationToken,setAuth,setAuthFalse,setAuthtoken, setAuthTrue, setAuthUsername } from './features/adminSlice/adminSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCircleChevronDown} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { ApiKey } from './api/apiKey';
+import VerificationEmail from './admin/verificationEmail/verificationEmail';
+import Verifying from './admin/verificationEmail/verifying';
 
 axios.defaults.withCredentials = true;
 
@@ -24,6 +26,7 @@ function App() {
   const dispatch = useDispatch();
   const isOpen = useSelector(getIsOpen);
   const auth = useSelector(getAuth);
+  const verifyToken = useSelector(getVerificationToken);
   
   const token = useSelector(getAuthToken);
    let snackbar;
@@ -72,7 +75,7 @@ function App() {
     <div className="App" >
         {snackbar}
         {triggerSnackbar}
-        <Navbar />
+        <Navbar /><br /><br />
         {/* All Routes */}
         <div onClick={()=>dispatch(setIsClose())}>
         <Routes>
@@ -84,10 +87,12 @@ function App() {
             <Route element={token && auth?<SidebarOutlet />:<Navigate to="/admin/login" />} >
               
               <Route path="/admin/dashboard" element={<Dashboard />} />  
+              
             
             </Route>
             
-      
+            <Route path="/admin/verification_email" element={verifyToken?<VerificationEmail />:<Navigate to="/admin/login" replace/>}/>
+            <Route path="/admin/verifying" element={verifyToken?<Verifying />:<Navigate to="/admin/login"/>}/>
         </Routes>
         </div>
         {/* All Routes */}

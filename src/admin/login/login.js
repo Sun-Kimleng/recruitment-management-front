@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 import './login.css';
 
-import { storeLoginError, getLoginError, setAuthtoken, setAuthUsername, clearError } from '../../features/adminSlice/adminSlice';
+import { storeLoginError, getLoginError, setAuthtoken, setAuthUsername, clearError, setVerificationToken } from '../../features/adminSlice/adminSlice';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
@@ -76,6 +76,11 @@ const Login = () => {
         else{
             setError(response.data.error);
             setIsPending(false);
+        }
+
+        if(response.data.status ===401){
+            navigate('/admin/verification_email');
+            dispatch(setVerificationToken(response.data.token));
         }
     }
 

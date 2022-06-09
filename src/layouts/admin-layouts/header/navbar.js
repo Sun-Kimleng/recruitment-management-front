@@ -49,7 +49,7 @@ const Navbar = () => {
     }
     let rightBar;
 if(token && auth){
-    rightBar = (<div className='right-nav' style={{marginRight: '40px'}}><NavLink to="" className="my-link"><div>about us</div></NavLink>
+    rightBar = (<div className='right-nav' style={{marginRight: '60px'}}><NavLink to="" className="my-link"><div>about us</div></NavLink>
     <div className="my-link" ><div onClick={handleLogout}>Logout</div></div>
     {isOpen && <div className="snackbar"></div>}
     </div>);

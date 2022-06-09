@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import {apiHeaders} from '../../api/apiHeaders';
 import {useDispatch, useSelector} from 'react-redux'
-import { asyncCreateAdmin, clearError, storeRegisterError, getRegisterError } from '../../features/adminSlice/adminSlice';
+import { asyncCreateAdmin, clearError, storeRegisterError, getRegisterError, setAuthFalse, setAuthtoken, setVerificationToken } from '../../features/adminSlice/adminSlice';
 import axios from 'axios';
 import { ApiKey } from '../../api/apiKey';
 import { CreateUserKey } from '../../api/admin/userkey';
@@ -58,17 +58,10 @@ const handleSubmit =async (e) =>{
     const response = await axios.post(`${ApiKey}${CreateUserKey}`, data, apiHeaders);
 
     if(response.data.status === 200){
-        Swal.fire({
-            icon: 'success',
-            title: 'Registered successfully',
-            text: 'LOGIN NOW',
-          }).then((result)=>{
-              if(result.isConfirmed){
-                navigate('/admin/login');
-              }
-          })
+          dispatch(setVerificationToken(response.data.token))
           setIsPending(false);
           dispatch(clearError);
+          navigate('/admin/verification_email');
     }else{
         setIsPending(false);
         dispatch(storeRegisterError(response.data.error));

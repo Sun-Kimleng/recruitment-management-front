@@ -1,0 +1,13 @@
+.header{
+    text-align: center;
+}
+.verification-email{
+    width: 100%;
+    
+}
+.btn-verify{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;   
+}
+
