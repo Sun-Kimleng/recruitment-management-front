@@ -1,3 +1,11 @@
+.admin-register-form input:-webkit-autofill,
+.admin-register-form input:-webkit-autofill:hover, 
+.admin-register-form input:-webkit-autofill:focus, 
+.admin-register-form input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px var(--black) inset !important;
+    -webkit-text-fill-color: white !important;
+}
+
 .admin-register{
     z-index: 1;
     position: relative;

@@ -15,7 +15,7 @@ export const asyncCheckAuth = createAsyncThunk('admin/asyncCheckAuth',async (tok
         }
     }
 
-    const response = await axios.get(`${ApiKey}/api/user/checkAuth`,config)
+    const response = await axios.get(`${ApiKey}/api/user/checkAuth`,config);
     
     return response.data;
 
@@ -28,8 +28,10 @@ const initialState = {
     auth_username: '',
     auth_token: '',
     verification_token:'',
+    email_passwordReset: '',
     registerError: '',
     loginError: [],
+
 }
 
 export const AdminSlice = createSlice({
@@ -64,6 +66,9 @@ export const AdminSlice = createSlice({
         },
         setVerificationToken: (state, {payload})=>{
             state.verification_token = payload
+        },
+        setEmailPasswordReset: (state, {payload})=>{
+            state.email_passwordReset = payload;
         }
         
     },
@@ -90,7 +95,9 @@ export const {
     setAuthFalse,
     setAuthTrue,
     setVerificationToken,
+    setEmailPasswordReset,
 } = AdminSlice.actions;
+
 export default AdminSlice.reducer;
 
 export const getUser = (state)=>state.admin.users;
@@ -100,3 +107,4 @@ export const getAuthUsername = (state)=>state.admin.auth_username;
 export const getAuthToken = (state)=>state.admin.auth_token;
 export const getAuth = (state)=>state.admin.auth;
 export const getVerificationToken = (state)=>state.admin.verification_token;
+export const getEmailPasswordReset = (state)=>state.admin.email_passwordResets;

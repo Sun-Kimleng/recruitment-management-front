@@ -19,6 +19,7 @@ import Swal from 'sweetalert2';
 import { ApiKey } from './api/apiKey';
 import VerificationEmail from './admin/verificationEmail/verificationEmail';
 import Verifying from './admin/verificationEmail/verifying';
+import ForgetPassword from './admin/forgetPassword/forgetPassword';
 
 axios.defaults.withCredentials = true;
 
@@ -83,6 +84,7 @@ function App() {
           <Route path="/" element={<Home />}/>
           <Route path="/admin/register" element={token && auth?<Navigate to="/admin/dashboard" replace/>:<AdminRegister />}/>
           <Route path="/admin/login" element={token && auth?<Navigate to="/admin/dashboard" replace/>:<Login />}/>
+          <Route path="/admin/forget_password" element={<ForgetPassword />}/>
             
             <Route element={token && auth?<SidebarOutlet />:<Navigate to="/admin/login" />} >
               
