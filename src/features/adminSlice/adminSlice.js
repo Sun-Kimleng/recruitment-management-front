@@ -107,4 +107,4 @@ export const getAuthUsername = (state)=>state.admin.auth_username;
 export const getAuthToken = (state)=>state.admin.auth_token;
 export const getAuth = (state)=>state.admin.auth;
 export const getVerificationToken = (state)=>state.admin.verification_token;
-export const getEmailPasswordReset = (state)=>state.admin.email_passwordResets;
+export const getEmailPasswordReset = (state)=>state.admin.email_passwordReset;
