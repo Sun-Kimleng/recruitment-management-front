@@ -47,6 +47,7 @@ const Login = () => {
         const data = {email: inputs.email, password: inputs.password};
         const response = await axios.post(`${ApiKey}${LoginUserKey}`, data, apiHeaders)
         .catch(error=>{
+            const mute = error
         });
         
 
@@ -94,7 +95,8 @@ const Login = () => {
                 <Form.Check onChange={handleShowAndHidePassword} type="checkbox" label="Show password" style={{color:'white'}} /><br />
                 <Button disabled={isPending?true:false} className="my-btn-submit" type="submit" variant="primary">{isPending?'Logging in.....':'Login'}</Button>
                 <br /><br />
-                <Link to="/admin/forget_password">Forget password</Link>
+                <Link to="/admin/forget_password">Forget password</Link><br />
+                <Link to="/admin/register">Sign Up</Link>
             </form>
         </div>
      );

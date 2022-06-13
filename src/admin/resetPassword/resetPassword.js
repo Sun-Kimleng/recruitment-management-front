@@ -32,12 +32,14 @@ const ResetPassword = () => {
         setIsSending(true);
         const data={token: resetPasswordToken, email: resetPasswordEmail, password: inputs.password, password_confirmation: inputs.password_confirmation}
         
+        
+
         const headers ={
             'accept': 'applicaton/json',
             'Authorization': `Bearer ${resetPasswordToken}`,
         }
 
-        await axios.post(`${ApiKey}/api/reset-password`, data, {headers})
+        const res = await axios.post(`${ApiKey}/api/reset-password`, data, {headers})
         .then(response=>{
             dispatch(setEmailPasswordReset(''));
             Swal.fire(
@@ -47,12 +49,30 @@ const ResetPassword = () => {
               )
             
         }).catch(error=>{
-            setError(error.response.data.errors);
+
+            if(error.response.data.errors.token){
+                Swal.fire(
+                    'Something went wrong!',
+                    'Your request cannot be processed',
+                    'warning'
+                  )
+                
+            }else{
+                setError(error.response.data.errors);
+            }
+            
             setText('Change Password');
             setIsSending(false);
-            console.clear();
-        });
+            if(error.request){
+                console.log('errr');
+            }
+           
 
+        });
+        
+        if(!res){
+            console.log('error');
+        }
     }
 
     return ( 

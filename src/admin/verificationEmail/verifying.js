@@ -10,7 +10,6 @@ const Verifying = () => {
     
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const verifyToken = useSelector(getVerificationToken);
 
    
 

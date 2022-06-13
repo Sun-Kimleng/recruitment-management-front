@@ -1,9 +1,7 @@
 
 import {Routes, Route, Navigate} from 'react-router-dom';
 import AdminRegister from './admin/register/admin-register';
-import Navbar from './layouts/admin-layouts/header/navbar';
 import './App.css'
-import Sidebar from './layouts/admin-layouts/sidebar/sidebar';
 import Login from './admin/login/login';
 import Home from './admin/home/home';
 import Dashboard from './admin/dashboard/dashboard';
@@ -81,9 +79,7 @@ function App() {
             {triggerSnackbar}
         {/* Added Features */}
 
-        {/* Navbar */}
-          <Navbar />
-        {/* Navbar */}
+        
         
         <br /><br />
 

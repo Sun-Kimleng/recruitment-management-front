@@ -1,6 +1,8 @@
+
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet} from "react-router-dom";
 import { getIsOpen, setIsClose } from "../../../features/navbarSlice/navbarSlice";
+import Navbar from "../header/navbar";
 import Sidebar from "./sidebar";
 
 
@@ -17,6 +19,7 @@ const SidebarOutlet = () => {
     
     return ( 
     <div onClick={handleIsOpen}>
+        <Navbar />
         <Sidebar />
         <Outlet />
     </div>
