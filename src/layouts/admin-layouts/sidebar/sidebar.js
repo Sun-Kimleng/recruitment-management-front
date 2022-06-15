@@ -11,7 +11,8 @@ const Sidebar = () => {
                 
                 {cate.item.map((item, index)=>(
                 <div className="my-section-item" key={index}>
-                    <div className="my-item" key={index}><NavLink className="my-navlink" to="">{item}</NavLink></div>
+          
+                    <div className="my-item" key={index}><NavLink className="my-navlink" to={`/admin/${item.toLowerCase()}`}>{item}</NavLink></div>
                     
                 </div>
 

@@ -23,7 +23,6 @@ const VerificationEmail = () => {
             'Accept': 'application/json',
             'Authorization': `Bearer ${verifyToken}`
         }
-        console.log(verifyToken);
 
         await axios.get(`${ApiKey}/api/email/resend`, {headers})
         .then(response=>{

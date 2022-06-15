@@ -19,6 +19,7 @@ import VerificationEmail from './admin/verificationEmail/verificationEmail';
 import Verifying from './admin/verificationEmail/verifying';
 import ForgetPassword from './admin/forgetPassword/forgetPassword';
 import ResetPassword from './admin/resetPassword/resetPassword';
+import Job from './admin/job/job';
 
 axios.defaults.withCredentials = true;
 
@@ -104,8 +105,9 @@ function App() {
 
           {/* For Auth User Only */}
             <Route element={token && auth?<SidebarOutlet />:<Navigate to="/admin/login" />} >
-
-                <Route path="/admin/dashboard" element={<Dashboard />} />  
+                
+                <Route path="/admin/dashboard" element={<Dashboard />} />
+                <Route path="/admin/job" element={<Job />} />  
 
             </Route>
           {/* For Auth User Only */}

@@ -28,3 +28,7 @@ body{
   z-index:3;
   font-size: 35px;
 }
+
+.content{
+  margin-left: 120px;
+}

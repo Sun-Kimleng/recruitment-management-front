@@ -4,7 +4,7 @@ import { Outlet} from "react-router-dom";
 import { getIsOpen, setIsClose } from "../../../features/navbarSlice/navbarSlice";
 import Navbar from "../header/navbar";
 import Sidebar from "./sidebar";
-
+import './sidebar.css'
 
 
 const SidebarOutlet = () => {
@@ -21,7 +21,9 @@ const SidebarOutlet = () => {
     <div onClick={handleIsOpen}>
         <Navbar />
         <Sidebar />
-        <Outlet />
+        <div className="body-content">
+            <Outlet />
+        </div>
     </div>
         
      );

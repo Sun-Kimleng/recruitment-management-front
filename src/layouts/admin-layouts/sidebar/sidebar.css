@@ -48,3 +48,12 @@
 .my-navlink:hover{
     color: gray;
 }
+
+.body-content{
+    margin-left: 260px;
+}
+
+.active{
+    font-Size: 18px;
+    color: navajowhite;
+}

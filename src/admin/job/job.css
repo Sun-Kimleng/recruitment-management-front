@@ -1,0 +1,35 @@
+.job{
+    height: 7000px;
+}
+
+.form{
+    
+    position: fixed;
+    overflow: hidden;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    background-color: rgb(37, 41, 41, 0.5);
+}
+
+.job-form{
+  
+    padding: 25px;
+   
+}
+
+.data-input{
+    width: 100%;
+    margin-bottom: 20px !important;
+}
+
+.job-btn{
+    width: 100%;
+}
+
+.job-table{
+    margin: 0 auto;
+    width: 450px !important;
+    text-align: center;
+}

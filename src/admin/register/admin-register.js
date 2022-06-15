@@ -55,7 +55,7 @@ const handleSubmit =async (e) =>{
     const data= {email: registerInput.email, username: registerInput.username, password: registerInput.password, confirmPassword: registerInput.confirmPassword};
     
     setIsPending(true);
-    const response = await axios.post(`${ApiKey}${CreateUserKey}`, data, apiHeaders);
+    const response = await axios.post(`${ApiKey}${CreateUserKey}`, data, {apiHeaders});
 
     if(response.data.status === 200){
           dispatch(setVerificationToken(response.data.token))

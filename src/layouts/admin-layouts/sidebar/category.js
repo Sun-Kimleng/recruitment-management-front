@@ -2,8 +2,8 @@ export const category = [
     {
         section: 'CORE',
         item: [
-            'Dashoard',
-            'Profile'
+            'Dashboard',
+            'Job'
         ]
     },
 
