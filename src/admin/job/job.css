@@ -1,5 +1,5 @@
 .job{
-    height: 7000px;
+    margin-right: 10px;
 }
 
 .form{
@@ -30,6 +30,6 @@
 
 .job-table{
     margin: 0 auto;
-    width: 450px !important;
     text-align: center;
 }
+

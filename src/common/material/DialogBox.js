@@ -17,7 +17,7 @@ export default function AlertDialogSlide(isOpen, body, handleClose) {
   
 
   return (
-    <div style={{height: '4000px'}}>
+    <div>
       
       <Dialog
         onClose={handleClose}
