@@ -10,6 +10,7 @@
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.1",
+    "@mui/x-data-grid": "^5.12.2",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",

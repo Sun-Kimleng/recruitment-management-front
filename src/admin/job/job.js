@@ -12,7 +12,13 @@ import { ApiKey } from '../../api/apiKey';
 import { apiHeadersWithToken } from '../../api/apiHeaders';
 import { getAuthToken } from '../../features/adminSlice/adminSlice';
 import Swal from 'sweetalert2';
-import { Alert, Snackbar, TextareaAutosize } from '@mui/material';
+import {Pagination, TextareaAutosize } from '@mui/material';
+import paginate from '../../common/material/paginate';
+import usePaginateBluePrint from '../../common/material/paginate';
+import DataTable from '../../common/material/table';
+import {AnimatePresence, motion} from 'framer-motion';
+
+
 
 const Field = dialogTextField;
 const Job = () => { 
@@ -24,6 +30,8 @@ const Job = () => {
     //handle the form
     const [isOpen, setIsOpen] = useState(false);
     const [isUpdate, setIsUpdate] = useState(['']);
+    const [isOpenDetailTable, setIsOpenDetailTable] = useState(['']);
+    const [isOpenDetail, setIsOpenDetail] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isRefresh, setIsRefresh] = useState(false);
     const [error, setError] = useState(['']);
@@ -33,6 +41,28 @@ const Job = () => {
       description: '',
     });
     
+    //animation toggle detail
+    const toggleTableVariant = {
+      show: {
+        height: '100px'
+        
+      },
+      hide: {
+        
+        height: '0px'
+      },
+
+      close: {
+        overflow: 'hidden',
+        height: '0px'
+      },
+
+      invisible: {
+          display: 'none',
+        
+      }
+    }
+
     //Sweet alert Toast
     const Toast = Swal.mixin({
       toast: true,
@@ -56,10 +86,22 @@ const Job = () => {
       setIsOpen(true)
     }
   
-
     //Close Dialog Box
     const handleClose = ()=>{
       setIsOpen(false);
+    }
+
+    //Toggle Detail Table Row
+    const handleToggleTable = (id)=>{
+
+      if(isOpenDetailTable.open === id){
+        setIsOpenDetailTable(['']);
+      }else{
+        setIsOpenDetailTable({open: id});
+      }
+      
+    
+      
     }
 
     //Toggle Update Button
@@ -170,7 +212,11 @@ const Job = () => {
     useEffect(()=>{
       fetchJob()
     }, [isRefresh]);
- 
+    
+    //Pagination
+
+    const {currentPost: data, totalPage, currentPage, changePage}= usePaginateBluePrint(job);
+
 
     const body = <form onSubmit={handleSubmit} className='job-form'>
        <FontAwesomeIcon onClick={handleClose} style={{fontSize: '30px', color: 'black', alignItems: 'right', cursor: 'pointer'}} icon={faXmark} />
@@ -187,7 +233,7 @@ const Job = () => {
         <h2 className="title" style={{textAlign:'center'}}>Manage Jobs</h2>
         <Button variant="primary" onClick={handleOpen}>Add a new job</Button> <br /> <br />
   
-        <Table striped bordered hover className='job-table' responsive>
+        <Table className='job-table' responsive>
           <thead>
             <tr>
               <th>Job Title</th>
@@ -197,8 +243,9 @@ const Job = () => {
           </thead>
          
           <tbody>
-          {job.map((job, index)=>(
-            <tr key={index}>
+          {data.map((job, index)=>(
+             <Fragment key={index}>
+            <tr style={{cursor: 'pointer'}}>
               {isUpdate.update === job.id
               ?
               //Fragment is mean nothing cause it's not a parent we use it for ?..:..
@@ -209,8 +256,8 @@ const Job = () => {
               :
               //Fragment is mean nothing cause it's not a parent we use it for ?..:..
               <Fragment>
-                <td>{job.name}</td>
-                <td>{job.description}</td>
+                <td onClick={()=>handleToggleTable(job.id)}>{job.name} </td>
+                <td onClick={()=>handleToggleTable(job.id)}>{job.description}</td>
               </Fragment>
               }
               
@@ -226,14 +273,40 @@ const Job = () => {
               }
               </td>
             </tr>
+              <AnimatePresence>
+                {isOpenDetailTable.open === job.id 
+                &&(
+                  <Fragment>
+                  
+                    <motion.tr
+                      variants={toggleTableVariant}
+                      animate= 'show'
+                      initial= 'hide'
+                      exit='close'
+
+                    >
+                      <motion.td colSpan={3}
+                      variants={toggleTableVariant}
+                      exit='invisible'
+                      style={{backgroundColor: '#f0f0f0'}}
+                      >
+                        {job.id}
+                      </motion.td>
+                    </motion.tr>
+                    
+                  </Fragment>
+                )}
+              </AnimatePresence>
+            </Fragment>
+            
           ))}
           </tbody>
           
         </Table>
-       
+        <Pagination count={totalPage} page={currentPage} onChange={(e, value)=>{changePage(value)}} variant="outlined" shape="rounded"/>
         
         {AlertDialogSlide(isOpen, body, handleClose)}
-
+   
         </div>
     );
     
