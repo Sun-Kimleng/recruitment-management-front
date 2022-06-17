@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useState } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Button, FormControl, Table } from 'react-bootstrap';
 import AlertDialogSlide from '../../common/material/DialogBox';
 import { dialogTextField } from '../../common/material/dialogTextField';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -44,7 +44,7 @@ const Job = () => {
     //animation toggle detail
     const toggleTableVariant = {
       show: {
-        height: '100px'
+        height: '150px'
         
       },
       hide: {
@@ -208,16 +208,76 @@ const Job = () => {
       })
     }
 
-    //handle refreshing when new item added
+    //handle refreshing when new item added or changing
     useEffect(()=>{
       fetchJob()
     }, [isRefresh]);
     
+    //Sorting
+    const [select, setSelect]=useState('name');
+    const [order, setOrder] = useState('asc');
+
+    const sorting = (column)=>{
+        
+        switch (column){
+            case 'name':
+            setSelect('name'); break;
+
+            case 'description':
+            setSelect('description'); break;
+
+            default:
+            setSelect('name');
+        }
+
+
+        if(order === 'asc')
+        {
+            //..data whatever inside array
+            const sorted = [...job].sort((a, b)=>
+            {
+                return a[column].toLowerCase() > b[column].toLowerCase()? 1 : -1
+            }
+            );
+                dispatch(storeJob(sorted));
+                setOrder('dsc');
+               
+        }
+        if(order ==='dsc'){
+
+            //..data whatever inside array
+            const sorted = [...job].sort((a, b)=>
+            {
+                return a[column].toLowerCase() < b[column].toLowerCase() ? 1 : -1
+            }
+            );
+                
+                dispatch(storeJob(sorted));
+                setOrder('asc');
+        }
+    }
+    //Searching
+    const [searchTerm, setSearchTerm]= useState('');
+
+    let currentJob;
+
+    useMemo(()=>{
+
+        currentJob= job.filter((job)=>{
+            if(searchTerm ===''){
+                return job;
+            }
+            //value is what we maping through filter
+            else if(job.name.toLowerCase().includes(searchTerm.toLowerCase())){
+                return job;
+            }
+        }
+    )});
+
     //Pagination
+    const {currentPost: data, totalPage, currentPage, changePage}= usePaginateBluePrint(currentJob);
 
-    const {currentPost: data, totalPage, currentPage, changePage}= usePaginateBluePrint(job);
-
-
+    //Submit Form Adding New Job
     const body = <form onSubmit={handleSubmit} className='job-form'>
        <FontAwesomeIcon onClick={handleClose} style={{fontSize: '30px', color: 'black', alignItems: 'right', cursor: 'pointer'}} icon={faXmark} />
         <h4 style={{textAlign: 'center'}}>Add Job</h4>
@@ -231,13 +291,22 @@ const Job = () => {
           <br />
           {isPending && <div>Loading........</div>}
         <h2 className="title" style={{textAlign:'center'}}>Manage Jobs</h2>
-        <Button variant="primary" onClick={handleOpen}>Add a new job</Button> <br /> <br />
+        <div className='head-item'>
+        <><Button variant="primary" onClick={handleOpen}>Add a new job</Button></>
+        <><FormControl
+                type="search"
+                placeholder="Search by Job title"
+                className="me-2 search"
+                aria-label="Search"
+                onChange={(e)=>{setSearchTerm(e.target.value)}}
+        /></></div>
+     
   
         <Table className='job-table' responsive>
           <thead>
             <tr>
-              <th>Job Title</th>
-              <th>Description</th>
+              <th style={{cursor: 'pointer'}} className={select === 'name'?'is-active':''} onClick={()=>{sorting('name')}}>Job Title</th>
+              <th style={{cursor: 'pointer'}} className={select === 'description'?'is-active':''} onClick={()=>{sorting('description')}}>Description</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -257,7 +326,8 @@ const Job = () => {
               //Fragment is mean nothing cause it's not a parent we use it for ?..:..
               <Fragment>
                 <td onClick={()=>handleToggleTable(job.id)}>{job.name} </td>
-                <td onClick={()=>handleToggleTable(job.id)}>{job.description}</td>
+                <td onClick={()=>handleToggleTable(job.id)}>{job.description.length<20?job.description:job.description
+                .substring(0,19)+'....'}</td>
               </Fragment>
               }
               
@@ -290,7 +360,10 @@ const Job = () => {
                       exit='invisible'
                       style={{backgroundColor: '#f0f0f0'}}
                       >
-                        {job.id}
+                        <div className="create">Created at: {job.created_at}</div>
+                        <div className="update">Last updated at: {job.updated_at}</div>
+                        <div className="update">Added by: {job.added_by}</div>
+                        <div className="description"><b>Description</b> <br/> {job.description}</div>
                       </motion.td>
                     </motion.tr>
                     

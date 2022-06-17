@@ -33,4 +33,33 @@
     text-align: center;
 }
 
+.create, .update{
+    font-size: 11px;
+}
 
+.description{
+    display: block;
+    background-color: #d7d9db;
+    padding: 10px;
+    font-size: 11px;
+    margin: 0 auto;
+    width: 380px;
+    word-wrap: break-word;
+    
+}
+
+.isActive{
+    color: grey;
+}
+
+.search{
+    margin-left: 10px;
+    display: inline-block;
+    width: 200px !important;
+}
+
+.head-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
