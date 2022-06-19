@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
-import { Button, FormControl, Table } from 'react-bootstrap';
+import { Button, Form, FormControl, Table } from 'react-bootstrap';
 import AlertDialogSlide from '../../common/material/DialogBox';
 import { dialogTextField } from '../../common/material/dialogTextField';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -13,14 +13,14 @@ import { apiHeadersWithToken } from '../../api/apiHeaders';
 import { getAuthToken } from '../../features/adminSlice/adminSlice';
 import Swal from 'sweetalert2';
 import {Pagination, TextareaAutosize } from '@mui/material';
-import paginate from '../../common/material/paginate';
 import usePaginateBluePrint from '../../common/material/paginate';
-import DataTable from '../../common/material/table';
 import {AnimatePresence, motion} from 'framer-motion';
-
+import DenseTable from '../../common/material/denseTable';
+import { jobDetail } from './jobDetail';
 
 
 const Field = dialogTextField;
+
 const Job = () => { 
     //Redux tool kit
     const job = useSelector(getJob);
@@ -30,21 +30,21 @@ const Job = () => {
     //handle the form
     const [isOpen, setIsOpen] = useState(false);
     const [isUpdate, setIsUpdate] = useState(['']);
-    const [isOpenDetailTable, setIsOpenDetailTable] = useState(['']);
-    const [isOpenDetail, setIsOpenDetail] = useState(false);
+    const [isOpenDetailTable, setIsOpenDetailTable] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isRefresh, setIsRefresh] = useState(false);
     const [error, setError] = useState(['']);
     const [isPending, setIsPending]=useState(true);
+    const [checkItems, setCheckItems]=useState([]);
     const [inputs, setInputs] = useState({
       name: '',
       description: '',
     });
     
-    //animation toggle detail
+    //Animation toggle detail
     const toggleTableVariant = {
       show: {
-        height: '150px'
+        height: '200px'
         
       },
       hide: {
@@ -96,12 +96,11 @@ const Job = () => {
 
       if(isOpenDetailTable.open === id){
         setIsOpenDetailTable(['']);
+
       }else{
         setIsOpenDetailTable({open: id});
       }
-      
     
-      
     }
 
     //Toggle Update Button
@@ -119,8 +118,6 @@ const Job = () => {
       if(response.data.status === 200){
           setIsUpdate(['']);
           setIsRefresh(!isRefresh);
-       
-        
           Toast.fire({
             icon: 'success',
             title: 'Updated Succesful!'
@@ -131,7 +128,6 @@ const Job = () => {
           title: 'Something went wrong! please check!'
         })
       }
-
     }
 
     //fetch Job
@@ -147,7 +143,8 @@ const Job = () => {
         console.log('error cannot fetch data');
       }
     }
-    //submit new job
+
+    //Submit new job
     const handleSubmit = async(e)=>{
       e.preventDefault();
       setIsSubmitting(true);
@@ -177,7 +174,7 @@ const Job = () => {
 
     }
 
-    //delete Job
+    //Delete Job
     const handleDelete= (id)=>{
       Swal.fire({
         title: 'Do you want to delete this job?',
@@ -187,7 +184,7 @@ const Job = () => {
         cancelButtonText: 'Cancel'
        
       }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
+        
         if (result.isConfirmed) {
           axios.delete(`${ApiKey}/api/user/job/${id}`, apiHeadersWithToken(token))
           .then(response=>{
@@ -208,7 +205,7 @@ const Job = () => {
       })
     }
 
-    //handle refreshing when new item added or changing
+    //Handle refreshing when new item added or changing
     useEffect(()=>{
       fetchJob()
     }, [isRefresh]);
@@ -218,7 +215,6 @@ const Job = () => {
     const [order, setOrder] = useState('asc');
 
     const sorting = (column)=>{
-        
         switch (column){
             case 'name':
             setSelect('name'); break;
@@ -229,7 +225,6 @@ const Job = () => {
             default:
             setSelect('name');
         }
-
 
         if(order === 'asc')
         {
@@ -251,18 +246,18 @@ const Job = () => {
                 return a[column].toLowerCase() < b[column].toLowerCase() ? 1 : -1
             }
             );
-                
+  
                 dispatch(storeJob(sorted));
                 setOrder('asc');
         }
     }
+
     //Searching
     const [searchTerm, setSearchTerm]= useState('');
 
     let currentJob;
 
     useMemo(()=>{
-
         currentJob= job.filter((job)=>{
             if(searchTerm ===''){
                 return job;
@@ -286,9 +281,71 @@ const Job = () => {
         <Button className="job-btn" type='submit' variant="primary" disabled={isSubmitting?true:false}>{isSubmitting?'Adding....':'Add Job'}</Button>
     </form>;
     
+    //Handle Checked Items to delete
+    const [isCheckAll, setIsCheckAll] = useState(false);
+    const [isCheck, setIsCheck] = useState([]);
+  
+    const handleSelectAll = (e) => {
+      setIsCheckAll(!isCheckAll);
+      setIsCheck(currentJob.map(data => data.id));
+      if (isCheckAll) {
+        setIsCheck([]);
+      }
+    };
+
+    const handleSelectByID = (e) => {
+      
+      setIsCheckAll(false);
+
+      setIsCheck([...isCheck, parseInt(e.target.id)]);
+      if (!e.target.checked) {
+        //select only item that doesn't equal to e.target.id
+        setIsCheck(isCheck.filter(item => item != e.target.id));
+      }
+    };
+
+    //Handle Delete by checked items
+    const handleDeleteByCheckedItems = async(ids)=>{
+
+      Swal.fire({
+        title: 'Do you want to delete these selected rows?',
+        showCancelButton: true,
+        confirmButtonColor: "#d9534f",
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel'
+       
+      }).then((result) => {
+        
+        if (result.isConfirmed) {
+          axios.delete(`${ApiKey}/api/user/job/deleteAll/${ids}`, apiHeadersWithToken(token))
+          .then(response=>{
+            setIsRefresh(!isRefresh);
+            Swal.fire(
+              'Done!',
+              'Succesful Deleted',
+              'success'
+            )
+          }).catch(error=>[
+            Swal.fire(
+              'Something went wrong!',
+              'Cannot delete these rows',
+              'warning'
+            )
+          ]);
+        }
+      })
+    }
+    
+    const handleExitSelectedRow = ()=>{
+      setIsCheckAll(false);
+      setIsCheck([]);
+    }
+    console.log(isCheck);
+
     return ( 
         <div className="job">
           <br />
+          {isCheck+','}
           {isPending && <div>Loading........</div>}
         <h2 className="title" style={{textAlign:'center'}}>Manage Jobs</h2>
         <div className='head-item'>
@@ -305,6 +362,15 @@ const Job = () => {
         <Table className='job-table' responsive>
           <thead>
             <tr>
+              {/* handle Select all */}
+              <th><Form.Check
+                
+                type="checkbox"
+                id="selectAll"
+                onChange={handleSelectAll}
+                checked={isCheckAll?true:false}
+              />
+              </th>
               <th style={{cursor: 'pointer'}} className={select === 'name'?'is-active':''} onClick={()=>{sorting('name')}}>Job Title</th>
               <th style={{cursor: 'pointer'}} className={select === 'description'?'is-active':''} onClick={()=>{sorting('description')}}>Description</th>
               <th>Action</th>
@@ -315,6 +381,17 @@ const Job = () => {
           {data.map((job, index)=>(
              <Fragment key={index}>
             <tr style={{cursor: 'pointer'}}>
+              {/* handle Select by id */}
+              <th><Form.Check
+                key={job.id}
+                type="checkbox"
+                id={job.id}
+                onChange={handleSelectByID}
+                //check if in isCheck array has id of that row
+                checked={isCheck.includes(job.id)?true :false}
+                
+              />
+              </th>
               {isUpdate.update === job.id
               ?
               //Fragment is mean nothing cause it's not a parent we use it for ?..:..
@@ -355,15 +432,12 @@ const Job = () => {
                       exit='close'
 
                     >
-                      <motion.td colSpan={3}
+                      <motion.td colSpan={4}
                       variants={toggleTableVariant}
                       exit='invisible'
                       style={{backgroundColor: '#f0f0f0'}}
                       >
-                        <div className="create">Created at: {job.created_at}</div>
-                        <div className="update">Last updated at: {job.updated_at}</div>
-                        <div className="update">Added by: {job.added_by}</div>
-                        <div className="description"><b>Description</b> <br/> {job.description}</div>
+                        {jobDetail(job.created_at, job.updated_at, job.description)}
                       </motion.td>
                     </motion.tr>
                     
@@ -378,8 +452,12 @@ const Job = () => {
         </Table>
         <Pagination count={totalPage} page={currentPage} onChange={(e, value)=>{changePage(value)}} variant="outlined" shape="rounded"/>
         
+        {isCheck.length !== 0 &&<div className="selected-all-alert">
+          <div className="selected-row"><div className="text">{isCheck.length} Rows selected</div></div>
+          <div className="btn-delete-selected"><Button onClick={()=>handleDeleteByCheckedItems(isCheck+',')} variant="outline-danger" style={{borderColor:'white' ,color:'white'}}>Delete selected items</Button>{' '}</div>
+          <div className="exit-selected"><FontAwesomeIcon onClick={handleExitSelectedRow} style={{fontSize: '40px', margin: '0px 20px 0px 20px',color: 'white', alignItems: 'right', cursor: 'pointer'}} icon={faXmark}/></div>
+        </div>}
         {AlertDialogSlide(isOpen, body, handleClose)}
-   
         </div>
     );
     

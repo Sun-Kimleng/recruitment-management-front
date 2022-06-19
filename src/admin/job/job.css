@@ -63,3 +63,28 @@
     flex-direction: row;
     justify-content: center;
 }
+
+.selected-all-alert{
+    position: fixed;
+    margin-top: 50px;
+    left: 0px;
+    top:0px;
+    right: 0px;
+    background-color: #d90d36;
+    padding: 3px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.selected-row{
+    color: white;  
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    margin-right: 20px;
+}
+
+.selected-row{
+    margin-top: -5px;
+}
