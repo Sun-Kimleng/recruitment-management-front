@@ -2,7 +2,7 @@ import { Fragment, useEffect, useMemo, useState } from 'react';
 import { Button, Form, FormControl, Table } from 'react-bootstrap';
 import AlertDialogSlide from '../../common/material/DialogBox';
 import { dialogTextField } from '../../common/material/dialogTextField';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux'
 import './job.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 import {Pagination, TextareaAutosize } from '@mui/material';
 import usePaginateBluePrint from '../../common/material/paginate';
 import {AnimatePresence, motion} from 'framer-motion';
-import DenseTable from '../../common/material/denseTable';
+import CloseIcon from '@mui/icons-material/Close';
 import { jobDetail } from './jobDetail';
 
 
@@ -320,6 +320,7 @@ const Job = () => {
           axios.delete(`${ApiKey}/api/user/job/deleteAll/${ids}`, apiHeadersWithToken(token))
           .then(response=>{
             setIsRefresh(!isRefresh);
+            setIsCheck([]);
             Swal.fire(
               'Done!',
               'Succesful Deleted',
@@ -342,10 +343,11 @@ const Job = () => {
     }
     console.log(isCheck);
 
+    //TEMPLATES IS HERE!!!
     return ( 
         <div className="job">
-          <br />
-          {isCheck+','}
+          <br /><br />
+
           {isPending && <div>Loading........</div>}
         <h2 className="title" style={{textAlign:'center'}}>Manage Jobs</h2>
         <div className='head-item'>
@@ -363,7 +365,7 @@ const Job = () => {
           <thead>
             <tr>
               {/* handle Select all */}
-              <th><Form.Check
+              <th className="check-item"><Form.Check
                 
                 type="checkbox"
                 id="selectAll"
@@ -380,7 +382,7 @@ const Job = () => {
           <tbody>
           {data.map((job, index)=>(
              <Fragment key={index}>
-            <tr style={{cursor: 'pointer'}}>
+            <tr style={{cursor: 'pointer'}} className="check-item">
               {/* handle Select by id */}
               <th><Form.Check
                 key={job.id}
@@ -454,8 +456,8 @@ const Job = () => {
         
         {isCheck.length !== 0 &&<div className="selected-all-alert">
           <div className="selected-row"><div className="text">{isCheck.length} Rows selected</div></div>
-          <div className="btn-delete-selected"><Button onClick={()=>handleDeleteByCheckedItems(isCheck+',')} variant="outline-danger" style={{borderColor:'white' ,color:'white'}}>Delete selected items</Button>{' '}</div>
-          <div className="exit-selected"><FontAwesomeIcon onClick={handleExitSelectedRow} style={{fontSize: '40px', margin: '0px 20px 0px 20px',color: 'white', alignItems: 'right', cursor: 'pointer'}} icon={faXmark}/></div>
+          <div className="btn-delete-selected"><Button onClick={()=>handleDeleteByCheckedItems(isCheck+',')} variant="outline-danger" style={{height:'30px', margin: '5px 10px 0px 10px', padding: '0px 10px' , borderColor:'white' ,color:'white'}}>Delete selected items</Button>{' '}</div>
+          <div className="exit-selected"><CloseIcon onClick={handleExitSelectedRow} style={{fontWeight: '500' ,fontSize: '20px', margin: '11px 20px 0px 10px',color: 'white', alignItems: 'right', cursor: 'pointer'}} icon={faXmark}/></div>
         </div>}
         {AlertDialogSlide(isOpen, body, handleClose)}
         </div>

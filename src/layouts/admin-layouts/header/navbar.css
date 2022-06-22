@@ -26,6 +26,19 @@
     margin-right: 60px;
 }
 
+.left-nav-child{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.toggle-left-bar{
+    color: white;
+    cursor: pointer;
+    margin-left: 5px;
+    display: none;
+}
+
 .my-link{
     text-decoration: none;
     color: white;
@@ -42,4 +55,10 @@
 }
 .active{
     color: grey;
+}
+
+@media screen and (max-width: 1366px) {
+    .toggle-left-bar{
+        display: inline;
+    }
 }

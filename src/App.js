@@ -79,8 +79,6 @@ function App() {
             {snackbar}
             {triggerSnackbar}
         {/* Added Features */}
-
-        
         
         <br /><br />
 

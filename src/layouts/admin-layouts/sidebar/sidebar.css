@@ -57,3 +57,12 @@
     font-Size: 18px;
     color: navajowhite;
 }
+
+@media screen and (max-width: 1366px) {
+    .sidebar{
+        display: none;
+    }
+    .body-content{
+        margin-left: 0px;
+    }
+}
