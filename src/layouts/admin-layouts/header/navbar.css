@@ -1,5 +1,7 @@
 :root{
     --black: #0b0c10;
+    --black-soft: #30302f;
+    --black-white:#292928;
     --brown: 
 }
 
@@ -22,9 +24,7 @@
     display: flex;
     flex-direction: row;
 }
-.right-nav-unauth{
-    margin-right: 60px;
-}
+
 
 .left-nav-child{
     display: flex;
@@ -47,13 +47,81 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 .my-link:hover{
     color: grey;
 }
 .active{
+    color: grey;
+}
+.profile-trigger{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5px;
+    background-color: var(--black-soft);
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+.arrow{
+    color: white;
+    margin: 0 auto;
+}
+
+.pf-parent{
+    border-radius: 10px;
+    position: fixed;
+    padding: 20px;
+    top: 55px;
+    right: 15px;
+    z-index: 10;
+    height: 500px;
+    width: 300px;
+    background-color: var(--black);
+}
+
+.profile-trigger:hover{
+    background-color: var(--black-white);
+}
+
+.pf-child{
+    cursor: pointer;
+    color: white;
+    display: flex;
+    padding: 10px;
+    border-radius: 5px;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.pf-picture{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: aqua;
+}
+.pf-name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 60px;
+    width: 160px;
+}
+.pf-child:hover{
+    background-color: var(--black-soft);
+}
+.logout-child{
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.logout-child:hover{
     color: grey;
 }
 

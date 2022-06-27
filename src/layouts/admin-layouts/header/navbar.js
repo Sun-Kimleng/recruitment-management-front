@@ -4,35 +4,73 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Logout } from '../../../api/admin/userkey';
-import { apiAuthorizationLogout } from '../../../api/apiHeaders';
 import { ApiKey } from '../../../api/apiKey';
 import { getAuth, getAuthToken, setAuthtoken, setAuthUsername, setTriggerLeftBar } from '../../../features/adminSlice/adminSlice';
-import { getIsOpen, setIsClose, setIsOpen } from '../../../features/navbarSlice/navbarSlice';
+import { setIsClose} from '../../../features/navbarSlice/navbarSlice';
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
 import './navbar.css';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { apiHeadersWithToken } from '../../../api/apiHeaders';
+import LogoutIcon from '@mui/icons-material/Logout';
 
-
-
-
-const Navbar = () => {
-
+const Navbar = ({refLeftBar}) => {
+    //Redux Toolkit
     const token = useSelector(getAuthToken);
     const auth = useSelector(getAuth);
     const dispatch = useDispatch();
-    const navigate=useNavigate();
-
-
-    const isOpen = useSelector(getIsOpen);
     
-    const config = {
-        headers: {
+    //Router Dom
+    const navigate= useNavigate();
+
+    //All States
+    const [triggerPf, setTriggerPf] = useState(false);
+    const [isPending, setIsPending] = useState(true);
+    const [user, setUser]=useState(['']);
+
+    //Fetch User
+    const handleFetch = async()=>{
+        
+        const response = await axios.get(`${ApiKey}/api/user/detail`, apiHeadersWithToken(token));
+
+        if(response.data.status === 200){
+            setUser(response.data.user);
+            setIsPending(false);
+        }
+
+    }
+
+    //refresh when something change
+    useEffect(()=>{
+        handleFetch();
+    }, []);
+
+    //handle click outside trigger pf button
+    const ref = useRef(null);
+
+    useEffect(()=>{
+        const handleClickOutside = (e)=>{
+            if(ref.current && !ref.current.contains(e.target)){
+                setTriggerPf(false);
+            }
+        }
+            document.addEventListener('mousedown', handleClickOutside);
+
+            return ()=>{
+                document.removeEventListener('mousedown', handleClickOutside);
+            }
+        
+    }, [triggerPf]);
+
+    //Logout
+    const handleLogout = async()=>{
+
+        const headers= {
             'Content-Type': 'application/json',
             'Authorization': token? `Bearer ${token}`: ''
         }
-    }
-    const handleLogout = async()=>{
 
-        const response = await axios.post(`${ApiKey}${Logout}`,{},config)
+        const response = await axios.post(`${ApiKey}${Logout}`,{},{headers})
         .catch(error=>{
             console.log(error.response);
         });
@@ -50,9 +88,25 @@ const Navbar = () => {
     }
     let rightBar;
 if(token && auth){
-    rightBar = (<div className='right-nav' style={{marginRight: '60px'}}><NavLink to="" className="my-link"><div>about us</div></NavLink>
-    <div className="my-link" ><div onClick={handleLogout}>Logout</div></div>
-    {isOpen && <div className="snackbar"></div>}
+    rightBar = (<div  ref={ref} className='right-nav' style={{marginRight: '15px'}}><NavLink to="" className="my-link"><div>about us</div></NavLink>
+    
+  
+    <Fragment><div onClick={()=>setTriggerPf(!triggerPf)} className='profile-trigger'><ArrowDropDownIcon className='arrow' /></div></Fragment>
+    {triggerPf && <div className="pf-parent">
+                <div className="pf-child">
+                    <div className="pf-picture">
+
+                    </div>
+                    <div className="pf-name">
+                        <div className="name">{user.username}</div>
+                        <div className="see-profile" style={{color: 'grey'}}>See Your Profile</div>
+                    </div>
+                </div>
+                <hr style={{color: 'grey'}}/>
+                <div className="logout-parent">
+                    <div className="logout-child" ><div onClick={handleLogout}><LogoutIcon /> Logout</div></div>
+                </div>
+            </div>}    
     </div>);
     
 }else{
@@ -79,11 +133,12 @@ if(token && auth){
                 </div>
 
                 {/* <div className="right-nav"> */}
-                    
                     {rightBar}
                 {/* </div> */}
 
-           </div>    
+           </div>
+
+           
         </div>
      );
 }

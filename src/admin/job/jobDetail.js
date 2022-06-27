@@ -1,7 +1,7 @@
 import { Table } from 'react-bootstrap';
 import './job.css'
 
-export const jobDetail = (created, updated, description) => {
+export const jobDetail = (created, updated, description, added_by) => {
 
     return ( 
     <div className="job-detail">
@@ -22,6 +22,7 @@ export const jobDetail = (created, updated, description) => {
             <tr>
                 <td colSpan={4}>
                     <div className="detail">
+                    <div>Added by <b>{added_by}</b></div>
                     <div className="description"><b>Full Description</b> <br/> {description}</div>
                     </div>
                 </td>

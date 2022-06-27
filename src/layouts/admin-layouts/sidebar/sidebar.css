@@ -57,6 +57,13 @@
     font-Size: 18px;
     color: navajowhite;
 }
+.close-trigger{
+    width: 100%;
+    margin-top: -20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
 
 @media screen and (max-width: 1366px) {
     

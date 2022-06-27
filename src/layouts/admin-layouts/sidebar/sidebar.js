@@ -5,32 +5,13 @@ import {AnimatePresence, motion} from 'framer-motion';
 import {useDispatch, useSelector} from 'react-redux'
 import { getTriggerLeftBar, setTriggerLeftBar, setTriggerLeftBarFalse } from '../../../features/adminSlice/adminSlice';
 import { useEffect, useRef, useState } from 'react';
-import { refType } from '@mui/utils';
+import { faXmark} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 const Sidebar = () => {
     const dispatch = useDispatch();
     const isOpenLeftBar= useSelector(getTriggerLeftBar);
-
-    //Reference of leftbar
-    const ref = useRef(null);
-
-    //handle click outside to close leftbar
-    useEffect(()=>{
-
-        const handleClickOutside = (e)=>{
-            if(ref.current && !ref.current.contains(e.target)){
-               dispatch(setTriggerLeftBarFalse(true));
-            }
-        }
-
-        document.addEventListener('click', handleClickOutside, true);
-
-        return () => {
-        document.removeEventListener('click', handleClickOutside, true);
-    };
-
-    }, [isOpenLeftBar]);
-
-   
+    const refLeftBar = useRef(null);
 
     const triggerLeftBarVariant = {
         'show': {
@@ -64,20 +45,41 @@ const Sidebar = () => {
         .addEventListener('change', e => setWidth1366( e.matches ));
     }, []);
 
+    //click outside to close sidebar
+    useEffect(()=>{ 
+
+        const handleClickOutside = (e)=>{
+            
+            if(refLeftBar.current && !refLeftBar.current.contains(e.target)){
+                dispatch(setTriggerLeftBarFalse(true));
+            }
+
+           
+        }
+
+        document.addEventListener('mousedown', handleClickOutside, true);
+
+        return ()=>{
+            document.removeEventListener('mousedown', handleClickOutside, true)
+        }
+
+    }, [refLeftBar]);
+
     if (width1366){
         return ( 
-            <div className={isOpenLeftBar?'':'sidebar-mini-parent'}>
+            <div className={isOpenLeftBar?'':'sidebar-mini-parent'} >
                  <AnimatePresence>
                  {!isOpenLeftBar && 
                  <motion.div
+                 ref={refLeftBar}
                  className={isOpenLeftBar?'sidebar':'sidebar-mini'}
                     variants={triggerLeftBarVariant}
                     initial='hide'
                     animate='show'
                     exit='invisible'
-                    ref={ref}
                  >
                    <div className="sidebar-container"><br />
+                   <div className='close-trigger'><FontAwesomeIcon onClick={()=>dispatch(setTriggerLeftBarFalse(true))} style={{fontSize: '30px', color: 'white', alignItems: 'right', cursor: 'pointer'}} icon={faXmark} /></div>
                     {category.map((cate, index)=>(<div key={index}>
                         <div className="my-section-title">{cate.section}</div>
                         

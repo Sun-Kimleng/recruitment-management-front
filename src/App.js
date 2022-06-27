@@ -21,6 +21,7 @@ import ForgetPassword from './admin/forgetPassword/forgetPassword';
 import ResetPassword from './admin/resetPassword/resetPassword';
 import Job from './admin/job/job';
 
+
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -62,22 +63,14 @@ function App() {
       checkAuthFunc();
       return ()=>{
         setAuthFalse();
-       
       }
     }, [token]);
-
-
-  if(token && auth){
-    snackbar = (<>{isOpen && <div className="snackbar"></div>}</>)
-    triggerSnackbar=(<><FontAwesomeIcon className='snackbar-trigger' onClick={()=>dispatch(setIsOpen())} icon={faCircleChevronDown} /></>)
-  }
 
   return (
     <div className="App" >
 
         {/* Added Features */}
-            {snackbar}
-            {triggerSnackbar}
+          
         {/* Added Features */}
         
         <br /><br />

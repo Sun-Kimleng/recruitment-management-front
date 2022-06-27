@@ -21,7 +21,9 @@ import useFetchBlueprint from '../../common/assets/fetchBlueprint';
 import useDeleteBlueprint from '../../common/assets/deleteBlueprint';
 import useUpdateBlueprint from '../../common/assets/updateBlueprint';
 import useInsertBlueprint from '../../common/assets/insertBlueprint';
-
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 const Field = dialogTextField;
 
@@ -146,7 +148,7 @@ const Job = () => {
     }
     
     //Sorting
-    const [select, setSelect]=useState('name');
+    const [select, setSelect] = useState('');
     const [order, setOrder] = useState('asc');
 
     const sorting = (column)=>{
@@ -189,11 +191,11 @@ const Job = () => {
 
     //Searching
     const [searchTerm, setSearchTerm]= useState('');
-
+    
     let currentJob;
 
     useMemo(()=>{
-        currentJob= job.filter((job)=>{
+        currentJob = job.filter((job)=>{
             if(searchTerm ===''){
                 return job;
             }
@@ -205,7 +207,7 @@ const Job = () => {
     )});
 
     //Pagination
-    const {currentPost: data, totalPage, currentPage, changePage}= usePaginateBluePrint(currentJob);
+    const {currentPost: data, totalPage, currentPage, changePage}= usePaginateBluePrint(currentJob, searchTerm);
 
     //Submit Form Adding New Job
     const body = <form onSubmit={handleSubmit} className='job-form'>
@@ -283,12 +285,16 @@ const Job = () => {
           <br /><br />
 
           {isPending && <div>Loading........</div>}
-        <h2 className="title" style={{textAlign:'center'}}>Manage Jobs</h2>
+        <div className='head'>
+          {' '}<h1 className="title" style={{textAlign:'center'}}>Manage Jobs</h1>
+          <div className="adding-btn"><Button variant="primary" style={{width: '200px'}} onClick={handleOpen}>Add a new job</Button></div>
+        </div>
+        <br />
         <div className='head-item'>
-        <><Button variant="primary" onClick={handleOpen}>Add a new job</Button></>
-        <><FormControl
+            <div className='Filter'>Filter</div>
+            <><FormControl
                 type="search"
-                placeholder="Search by Job title"
+                placeholder="Filter by job title"
                 className="me-2 search"
                 aria-label="Search"
                 onChange={(e)=>{setSearchTerm(e.target.value)}}
@@ -307,6 +313,7 @@ const Job = () => {
                 checked={isCheckAll?true:false}
               />
               </th>
+              <th className='arrow-column'></th>
               <th style={{cursor: 'pointer'}} className={select === 'name'?'is-active':''} onClick={()=>{sorting('name')}}>Job Title</th>
               <th style={{cursor: 'pointer'}} className={select === 'description'?'is-active':''} onClick={()=>{sorting('description')}}>Description</th>
               <th>Action</th>
@@ -327,17 +334,20 @@ const Job = () => {
                 checked={isCheck.includes(job.id)?true :false}
                 
               />
+              
               </th>
               {isUpdate.update === job.id
               ?
               //Fragment is mean nothing cause it's not a parent we use it for ?..:..
               <Fragment>
+                <td className='arrow-column'>{isOpenDetailTable.open !== job.id?<ArrowRightIcon/>:<ArrowDropDownIcon />}</td>
                 <td><TextareaAutosize required onChange={handleInputs} type="text" name='name' value={inputs.name} /></td>
                 <td><TextareaAutosize required onChange={handleInputs} type="text" name='description' value={inputs.description} /></td>
               </Fragment>
               :
               //Fragment is mean nothing cause it's not a parent we use it for ?..:..
               <Fragment>
+                <td onClick={()=>handleToggleTable(job.id)} className='arrow-column'>{isOpenDetailTable.open !== job.id?<ArrowRightIcon/>:<ArrowDropDownIcon />}</td>
                 <td onClick={()=>handleToggleTable(job.id)}>{job.name} </td>
                 <td onClick={()=>handleToggleTable(job.id)}>{job.description.length<20?job.description:job.description
                 .substring(0,19)+'....'}</td>
@@ -368,12 +378,12 @@ const Job = () => {
                       exit='close'
 
                     >
-                      <motion.td colSpan={4}
+                      <motion.td colSpan={5}
                       variants={toggleTableVariant}
                       exit='invisible'
                       style={{backgroundColor: '#f0f0f0'}}
                       >
-                        {jobDetail(job.created_at, job.updated_at, job.description)}
+                        {jobDetail(job.created_at, job.updated_at, job.description, job.added_by)}
                       </motion.td>
                     </motion.tr>
                     
@@ -386,6 +396,9 @@ const Job = () => {
           </tbody>
           
         </Table>
+        <br />
+        <p>Total Record: {currentJob.length}</p>
+    
         <Pagination count={totalPage} page={currentPage} onChange={(e, value)=>{changePage(value)}} variant="outlined" shape="rounded"/>
         
         {isCheck.length !== 0 &&<div className="selected-all-alert">
