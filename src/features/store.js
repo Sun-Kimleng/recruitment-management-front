@@ -23,7 +23,7 @@ import {
     key: 'root',
     version: 1,
     //exception state
-    blacklist: ['users', 'registerError', 'loginError', 'isOpen'],
+    blacklist: ['triggerLeftBar','users', 'registerError', 'loginError', 'isOpen'],
     storage,
   }
   

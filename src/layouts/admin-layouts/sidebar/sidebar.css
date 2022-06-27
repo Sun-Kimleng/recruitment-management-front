@@ -4,7 +4,7 @@
     --blue: #66fcf1;
 }
 
-.sidebar{
+.sidebar, .sidebar-mini{
     position: fixed;
     top: 50px;
     left: 0px;
@@ -59,8 +59,22 @@
 }
 
 @media screen and (max-width: 1366px) {
+    
     .sidebar{
         display: none;
+    }
+
+    .sidebar-mini-parent{
+        position: fixed;
+        background-color: rgb(81, 81, 82, 0.6);
+        top: 50px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+    }
+
+    .sidebar-mini{
+        display: block;
     }
     .body-content{
         margin-left: 0px;

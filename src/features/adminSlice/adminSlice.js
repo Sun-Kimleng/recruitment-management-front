@@ -31,6 +31,7 @@ const initialState = {
     email_passwordReset: '',
     registerError: '',
     loginError: [],
+    triggerLeftBar: true,
 
 }
 
@@ -69,8 +70,13 @@ export const AdminSlice = createSlice({
         },
         setEmailPasswordReset: (state, {payload})=>{
             state.email_passwordReset = payload;
+        },
+        setTriggerLeftBar: (state)=>{
+            state.triggerLeftBar = !state.triggerLeftBar;
+        },
+        setTriggerLeftBarFalse: (state, {payload})=>{
+            state.triggerLeftBar = payload;
         }
-        
     },
     extraReducers: {
        [asyncCheckAuth.fulfilled]: (state, {payload})=>{
@@ -96,6 +102,8 @@ export const {
     setAuthTrue,
     setVerificationToken,
     setEmailPasswordReset,
+    setTriggerLeftBarFalse,
+    setTriggerLeftBar,
 } = AdminSlice.actions;
 
 export default AdminSlice.reducer;
@@ -108,3 +116,4 @@ export const getAuthToken = (state)=>state.admin.auth_token;
 export const getAuth = (state)=>state.admin.auth;
 export const getVerificationToken = (state)=>state.admin.verification_token;
 export const getEmailPasswordReset = (state)=>state.admin.email_passwordReset;
+export const getTriggerLeftBar = (state)=>state.admin.triggerLeftBar;

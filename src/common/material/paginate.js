@@ -18,7 +18,7 @@ const usePaginateBluePrint = (data)=>{
 
     const totalPage = Math.ceil(data.length/postPerPage);
 
-    return {currentPost, totalPage, currentPage,changePage};
+    return {currentPost, totalPage, currentPage, changePage};
 
   
 }  

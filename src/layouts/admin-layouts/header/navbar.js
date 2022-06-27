@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { Logout } from '../../../api/admin/userkey';
 import { apiAuthorizationLogout } from '../../../api/apiHeaders';
 import { ApiKey } from '../../../api/apiKey';
-import { getAuth, getAuthToken, setAuthtoken, setAuthUsername } from '../../../features/adminSlice/adminSlice';
+import { getAuth, getAuthToken, setAuthtoken, setAuthUsername, setTriggerLeftBar } from '../../../features/adminSlice/adminSlice';
 import { getIsOpen, setIsClose, setIsOpen } from '../../../features/navbarSlice/navbarSlice';
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
 import './navbar.css';
@@ -71,7 +71,7 @@ if(token && auth){
 
                 <div className="left-nav">
                     <div className='left-nav-child'>
-                    <div className='toggle-left-bar'><DensitySmallIcon className='toggle-left-bar'/></div>
+                    <div className='toggle-left-bar'onClick={()=>dispatch(setTriggerLeftBar())}><DensitySmallIcon className='toggle-left-bar'/></div>
                     </div>
                     <div className='left-nav-child'>
                     <div><Link to="/" className="my-link"><div>Company Logo</div></Link></div>

@@ -10,24 +10,29 @@ import { getJob, storeJob } from '../../features/jobSlice/jobSlice';
 import axios from 'axios';
 import { ApiKey } from '../../api/apiKey';
 import { apiHeadersWithToken } from '../../api/apiHeaders';
-import { getAuthToken } from '../../features/adminSlice/adminSlice';
+import { getAuthToken, setTriggerLeftBarFalse } from '../../features/adminSlice/adminSlice';
 import Swal from 'sweetalert2';
 import {Pagination, TextareaAutosize } from '@mui/material';
 import usePaginateBluePrint from '../../common/material/paginate';
 import {AnimatePresence, motion} from 'framer-motion';
 import CloseIcon from '@mui/icons-material/Close';
 import { jobDetail } from './jobDetail';
+import useFetchBlueprint from '../../common/assets/fetchBlueprint';
+import useDeleteBlueprint from '../../common/assets/deleteBlueprint';
+import useUpdateBlueprint from '../../common/assets/updateBlueprint';
+import useInsertBlueprint from '../../common/assets/insertBlueprint';
 
 
 const Field = dialogTextField;
 
 const Job = () => { 
+
     //Redux tool kit
     const job = useSelector(getJob);
     const token = useSelector(getAuthToken);
     const dispatch = useDispatch();
 
-    //handle the form
+    //All the materials
     const [isOpen, setIsOpen] = useState(false);
     const [isUpdate, setIsUpdate] = useState(['']);
     const [isOpenDetailTable, setIsOpenDetailTable] = useState({});
@@ -35,12 +40,43 @@ const Job = () => {
     const [isRefresh, setIsRefresh] = useState(false);
     const [error, setError] = useState(['']);
     const [isPending, setIsPending]=useState(true);
-    const [checkItems, setCheckItems]=useState([]);
     const [inputs, setInputs] = useState({
       name: '',
       description: '',
     });
     
+    //fetch Job
+    const {handleFetch} = useFetchBlueprint
+    (storeJob, '/api/user/job', setIsPending);
+
+    //Delete Job
+    const {handleDelete}=useDeleteBlueprint
+    ('/api/user/job', setIsRefresh, isRefresh);
+
+    //update job
+    const updateData ={name: inputs.name, description: inputs.description};
+    const{handleUpdate} = useUpdateBlueprint
+    (updateData, '/api/user/job', setIsRefresh, isRefresh, setIsUpdate);
+
+    //Insert Job
+    const insertData = {name: inputs.name, description: inputs.description};
+    const {handleSubmit} = useInsertBlueprint
+    (
+      insertData, 
+      '/api/user/job', 
+      setIsSubmitting,
+      setError, 
+      setIsOpen, 
+      setIsRefresh,
+      isRefresh,
+    );
+
+    //Handle refreshing when new item added or changing
+    useEffect(()=>{
+      handleFetch();
+      dispatch(setTriggerLeftBarFalse(true));
+    }, [isRefresh]);
+
     //Animation toggle detail
     const toggleTableVariant = {
       show: {
@@ -108,107 +144,6 @@ const Job = () => {
       setIsUpdate({update: id});
       setInputs({name: name, description: description});
     }
-
-    //update job
-    const handleUpdate= async(id)=>{
- 
-      const data ={name: inputs.name, description: inputs.description};
-      const response = await axios.put(`${ApiKey}/api/user/job/${id}`, data, apiHeadersWithToken(token));
-
-      if(response.data.status === 200){
-          setIsUpdate(['']);
-          setIsRefresh(!isRefresh);
-          Toast.fire({
-            icon: 'success',
-            title: 'Updated Succesful!'
-          })
-      }else{
-        Toast.fire({
-          icon: 'error',
-          title: 'Something went wrong! please check!'
-        })
-      }
-    }
-
-    //fetch Job
-    const fetchJob = async()=>{
-
-      const $response = await axios.get(`${ApiKey}/api/user/job`, apiHeadersWithToken(token));
-      
-      if($response.data.status === 200){
-        setIsPending(false);
-        dispatch(storeJob($response.data.data));
-       
-      }else{
-        console.log('error cannot fetch data');
-      }
-    }
-
-    //Submit new job
-    const handleSubmit = async(e)=>{
-      e.preventDefault();
-      setIsSubmitting(true);
-      const data = {name: inputs.name, description: inputs.description};
-      const response = await axios.post(`${ApiKey}/api/user/job`,data, apiHeadersWithToken(token));
-      if(response.data.status === 404){
-        setIsSubmitting(false);
-        setError(response.data.errors);
-      }else if(response.data.status === 200){
-        handleClose();
-        setIsSubmitting(false);
-        setIsRefresh(!isRefresh);
-        Swal.fire(
-          'Done!',
-          'Succesful added a new job',
-          'success'
-        )
-        setError(['']);
-      }else{
-        setIsSubmitting(false);
-        Swal.fire(
-          'We\'re sorry!',
-          'You failed to add new job',
-          'error'
-        )
-      }
-
-    }
-
-    //Delete Job
-    const handleDelete= (id)=>{
-      Swal.fire({
-        title: 'Do you want to delete this job?',
-        showCancelButton: true,
-        confirmButtonColor: "#d9534f",
-        confirmButtonText: 'Delete',
-        cancelButtonText: 'Cancel'
-       
-      }).then((result) => {
-        
-        if (result.isConfirmed) {
-          axios.delete(`${ApiKey}/api/user/job/${id}`, apiHeadersWithToken(token))
-          .then(response=>{
-            setIsRefresh(!isRefresh);
-            Swal.fire(
-              'Done!',
-              'Succesful Deleted',
-              'success'
-            )
-          }).catch(error=>[
-            Swal.fire(
-              'Something went wrong!',
-              'Cannot delete this job',
-              'warning'
-            )
-          ]);
-        }
-      })
-    }
-
-    //Handle refreshing when new item added or changing
-    useEffect(()=>{
-      fetchJob()
-    }, [isRefresh]);
     
     //Sorting
     const [select, setSelect]=useState('name');
@@ -341,7 +276,6 @@ const Job = () => {
       setIsCheckAll(false);
       setIsCheck([]);
     }
-    console.log(isCheck);
 
     //TEMPLATES IS HERE!!!
     return ( 
