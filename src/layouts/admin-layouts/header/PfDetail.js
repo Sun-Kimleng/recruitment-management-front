@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -12,6 +12,7 @@ import './pfDetail.css';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 import { SetPageTitle } from '../../../setPageTitle';
+import AlertDialogSlide from '../../../common/material/DialogBox';
 
 
 
@@ -23,6 +24,8 @@ const PfDetail = () => {
     const {user_id} = useParams();
     
     //All States
+        //For Dialog Box
+        const [isOpenPwChange, setIsOpenPwChange] = useState(false);
     const [isPending, setIsPending] = useState(true);
     const [user, setUser] = useState(['']);
     const [isRefresh, setIsRefresh] = useState(false);
@@ -115,31 +118,40 @@ const PfDetail = () => {
         }
 
     }
+    //Chagnge Password Body
+    const changePwBody = (<div className='change-pw'>
+        Hello
+    </div>);
+
+    //Open Change Password Dialog
+    const handleClosePwChangeDialog = ()=>{
+        setIsOpenPwChange(false);
+    }
+
 
     //refresh when something changes
     useEffect(()=>{
         handleFetch();
     }, [isRefresh]);
 
-        if(isPending === true){
-            return (
-                <div
-                    style={{
-                        marginTop: '10px',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'center'
-                    }} 
-                ><div><Spinner animation="border"/></div></div>
 
-            )
-        }else{
 
-            if( user_id === user.user_id){
+        
                 return (
                     
                     <div className="pf-detail">
                         <br />
+                        {isPending === true?
+                        <div
+                        style={{
+                            marginTop: '10px',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'center'
+                        }} 
+                    ><div><Spinner animation="border"/></div></div>
+                        :
+                        <Fragment>{user_id === user.user_id ?
                         <div className="pf-detail-parent">
                             <div className="pf-detail-avatar-parent">
                                 <div className="pf-detail-avatar"></div>
@@ -148,7 +160,7 @@ const PfDetail = () => {
                             <div className="pf-detail-username-parent">
                                 <div><b>{inputs.username}</b></div>
                             </div>
-
+                            
                             <div className="pf-detail-update">
                                 <br />
                                 <form onSubmit={handleUpdateUsername}>
@@ -169,21 +181,17 @@ const PfDetail = () => {
                                 <br />
                                 <div>
                                     <div>Want to change your password? click this below button</div>
-                                    <div><Button variant="secondary" className="btn-submit">Change Password</Button></div>
+                                    <div onClick={()=>setIsOpenPwChange(true)}><Button variant="secondary" className="btn-submit">Change Password</Button></div>
+                                    
                                 </div>
+                                {AlertDialogSlide(isOpenPwChange, changePwBody, handleClosePwChangeDialog)}
                             </div>
                         </div>
+                        :<div>un-auth</div>}</Fragment>}
+                        
                     </div>
                 );
-            }else{
-                return (
-                    <div className="pf-detail">
-                        <br />
-                        un-auth user
-                    </div>
-                );
-            }    
-    }
+            
 }
  
 export default PfDetail;

@@ -421,6 +421,7 @@ const Job = () => {
           <div className="exit-selected"><CloseIcon onClick={handleExitSelectedRow} style={{fontWeight: '500' ,fontSize: '20px', margin: '11px 20px 0px 10px',color: 'white', alignItems: 'right', cursor: 'pointer'}} icon={faXmark}/></div>
         </div>}
         {AlertDialogSlide(isOpen, body, handleClose)}
+       
         </div>
     );
     
