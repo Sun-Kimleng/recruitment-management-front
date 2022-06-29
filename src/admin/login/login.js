@@ -8,15 +8,18 @@ import { CssTextField } from '../../common/material/CssTextField';
 import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 import './login.css';
-
 import { storeLoginError, getLoginError, setAuthtoken, setAuthUsername, clearError, setVerificationToken } from '../../features/adminSlice/adminSlice';
 import Swal from 'sweetalert2';
 import { Link, useNavigate } from 'react-router-dom';
+import { SetPageTitle } from '../../setPageTitle';
 
 const MyTextField = CssTextField;
 
 const Login = () => {
+    //Page Title
+    SetPageTitle('Admin Login');
 
+    //All States
     const [isShowPassword, setIsShowPassword]= useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();

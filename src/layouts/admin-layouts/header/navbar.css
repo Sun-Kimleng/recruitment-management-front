@@ -75,7 +75,7 @@
 .pf-parent{
     border-radius: 10px;
     position: fixed;
-    padding: 20px;
+    padding: 10px;
     top: 55px;
     right: 15px;
     z-index: 10;
@@ -89,6 +89,7 @@
 }
 
 .pf-child{
+    text-decoration: none;
     cursor: pointer;
     color: white;
     display: flex;
@@ -102,7 +103,10 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: aqua;
+    background-image: url('./no-pf.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .pf-name{
     display: flex;
@@ -110,11 +114,14 @@
     justify-content: center;
     height: 60px;
     width: 160px;
+    color: white;
 }
+
 .pf-child:hover{
     background-color: var(--black-soft);
 }
 .logout-child{
+    padding: 10px 20px;
     text-decoration: none;
     color: white;
     cursor: pointer;

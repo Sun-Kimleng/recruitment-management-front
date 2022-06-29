@@ -13,6 +13,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { apiHeadersWithToken } from '../../../api/apiHeaders';
 import LogoutIcon from '@mui/icons-material/Logout';
+import agb from './AGB.png';
 
 const Navbar = ({refLeftBar}) => {
     //Redux Toolkit
@@ -39,6 +40,7 @@ const Navbar = ({refLeftBar}) => {
         }
 
     }
+    
 
     //refresh when something change
     useEffect(()=>{
@@ -93,7 +95,7 @@ if(token && auth){
   
     <Fragment><div onClick={()=>setTriggerPf(!triggerPf)} className='profile-trigger'><ArrowDropDownIcon className='arrow' /></div></Fragment>
     {triggerPf && <div className="pf-parent">
-                <div className="pf-child">
+                <Link to={`/admin/${user.user_id}`} className="pf-child" onClick={()=>setTriggerPf(false)}>
                     <div className="pf-picture">
 
                     </div>
@@ -101,8 +103,8 @@ if(token && auth){
                         <div className="name">{user.username}</div>
                         <div className="see-profile" style={{color: 'grey'}}>See Your Profile</div>
                     </div>
-                </div>
-                <hr style={{color: 'grey'}}/>
+                </Link>
+                <hr style={{color: 'grey', marginTop: '8px'}}/>
                 <div className="logout-parent">
                     <div className="logout-child" ><div onClick={handleLogout}><LogoutIcon /> Logout</div></div>
                 </div>
@@ -128,7 +130,7 @@ if(token && auth){
                     <div className='toggle-left-bar'onClick={()=>dispatch(setTriggerLeftBar())}><DensitySmallIcon className='toggle-left-bar'/></div>
                     </div>
                     <div className='left-nav-child'>
-                    <div><Link to="/" className="my-link"><div>Company Logo</div></Link></div>
+                    <div><Link to="/" className="my-link"><img style={{width: '80px'}} src={agb} /></Link></div>
                     </div>
                 </div>
 

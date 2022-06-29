@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
-import { Button, Form, FormControl, Table } from 'react-bootstrap';
+import { Button, Form, FormControl, Spinner, Table } from 'react-bootstrap';
 import AlertDialogSlide from '../../common/material/DialogBox';
 import { dialogTextField } from '../../common/material/dialogTextField';
 import { faXmark} from '@fortawesome/free-solid-svg-icons';
@@ -24,8 +24,10 @@ import useInsertBlueprint from '../../common/assets/insertBlueprint';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { SetPageTitle } from '../../setPageTitle';
 
 const Field = dialogTextField;
+
 
 const Job = () => { 
 
@@ -76,6 +78,8 @@ const Job = () => {
     //Handle refreshing when new item added or changing
     useEffect(()=>{
       handleFetch();
+      //Set Page Title
+      SetPageTitle('Job Management');
       dispatch(setTriggerLeftBarFalse(true));
     }, [isRefresh]);
 
@@ -280,18 +284,18 @@ const Job = () => {
     }
 
     //TEMPLATES IS HERE!!!
-    return ( 
+    
+    return (
+
         <div className="job">
           <br /><br />
-
-          {isPending && <div>Loading........</div>}
         <div className='head'>
           {' '}<h1 className="title" style={{textAlign:'center'}}>Manage Jobs</h1>
           <div className="adding-btn"><Button variant="primary" style={{width: '200px'}} onClick={handleOpen}>Add a new job</Button></div>
         </div>
         <br />
         <div className='head-item'>
-            <div className='Filter'>Filter</div>
+       
             <><FormControl
                 type="search"
                 placeholder="Filter by job title"
@@ -299,9 +303,18 @@ const Job = () => {
                 aria-label="Search"
                 onChange={(e)=>{setSearchTerm(e.target.value)}}
         /></></div>
-     
+
   
-        <Table className='job-table' responsive>
+        {isPending? 
+          <div
+          style={{
+              marginTop: '10px',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center'
+          }} 
+      ><div><Spinner animation="border"/></div></div>
+        :<Table className='job-table' responsive>
           <thead>
             <tr>
               {/* handle Select all */}
@@ -383,7 +396,7 @@ const Job = () => {
                       exit='invisible'
                       style={{backgroundColor: '#f0f0f0'}}
                       >
-                        {jobDetail(job.created_at, job.updated_at, job.description, job.added_by)}
+                        {jobDetail(job.created_at, job.updated_at, job.description, job.user_added)}
                       </motion.td>
                     </motion.tr>
                     
@@ -395,8 +408,9 @@ const Job = () => {
           ))}
           </tbody>
           
-        </Table>
+        </Table>}
         <br />
+
         <p>Total Record: {currentJob.length}</p>
     
         <Pagination count={totalPage} page={currentPage} onChange={(e, value)=>{changePage(value)}} variant="outlined" shape="rounded"/>

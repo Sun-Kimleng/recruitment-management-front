@@ -20,6 +20,7 @@ import Verifying from './admin/verificationEmail/verifying';
 import ForgetPassword from './admin/forgetPassword/forgetPassword';
 import ResetPassword from './admin/resetPassword/resetPassword';
 import Job from './admin/job/job';
+import PfDetail from './layouts/admin-layouts/header/PfDetail';
 
 
 axios.defaults.withCredentials = true;
@@ -94,11 +95,12 @@ function App() {
           <Route path="/admin/forget_password" element={<ForgetPassword />}/>
           <Route path="/admin/reset_password" element={emailResetPassword?<ResetPassword />:<Navigate to="/admin/login" />}/>
 
-          {/* For Auth User Only */}
+          {/* For Admin Auth User Only */}
             <Route element={token && auth?<SidebarOutlet />:<Navigate to="/admin/login" />} >
                 
                 <Route path="/admin/dashboard" element={<Dashboard />} />
                 <Route path="/admin/job" element={<Job />} />  
+                <Route path="/admin/:user_id" element={<PfDetail />}/>
 
             </Route>
           {/* For Auth User Only */}

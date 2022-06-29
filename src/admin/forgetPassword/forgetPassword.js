@@ -6,10 +6,16 @@ import { ApiKey } from '../../api/apiKey';
 import { useDispatch } from 'react-redux';
 import { setEmailPasswordReset } from '../../features/adminSlice/adminSlice';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import { SetPageTitle } from '../../setPageTitle';
 
 const ForgetPassword = () => {
+    //Page Title
+    SetPageTitle('Forget Password');
+
+    //Redux Toolkit
     const dispatch = useDispatch();
 
+    //All States
     const [text, setText]=useState('Reset Password');
     const [isSending, setIsSending]=useState(false);
     const [isSent, setIsSent]=useState(false);

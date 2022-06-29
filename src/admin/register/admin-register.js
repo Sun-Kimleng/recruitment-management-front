@@ -11,12 +11,17 @@ import axios from 'axios';
 import { ApiKey } from '../../api/apiKey';
 import { CreateUserKey } from '../../api/admin/userkey';
 import Swal from 'sweetalert2';
+import { SetPageTitle } from '../../setPageTitle';
 
 const MyTextField = CssTextField;
 
 
 const AdminRegister = () => {
 
+//Page Title
+SetPageTitle('Admin Register');
+
+//All States
 const dispatch = useDispatch();
 const navigate = useNavigate();
 const error = useSelector(getRegisterError);
