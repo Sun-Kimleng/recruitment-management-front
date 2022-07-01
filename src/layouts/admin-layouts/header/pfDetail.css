@@ -58,3 +58,7 @@
 .successful-changed{
     color: green;
 }
+
+.change-password-form{
+    padding: 25px;
+}

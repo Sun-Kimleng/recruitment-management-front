@@ -21,6 +21,7 @@ import ForgetPassword from './admin/forgetPassword/forgetPassword';
 import ResetPassword from './admin/resetPassword/resetPassword';
 import Job from './admin/job/job';
 import PfDetail from './layouts/admin-layouts/header/PfDetail';
+import RedirectAfterPwChanged from './layouts/admin-layouts/header/redirectAfterPwChanged';
 
 
 axios.defaults.withCredentials = true;
@@ -94,6 +95,9 @@ function App() {
           {/* Forget Password */}
           <Route path="/admin/forget_password" element={<ForgetPassword />}/>
           <Route path="/admin/reset_password" element={emailResetPassword?<ResetPassword />:<Navigate to="/admin/login" />}/>
+          
+          {/* Redirect after password changed */}
+          <Route path="/logging_out" element={<RedirectAfterPwChanged />} />
 
           {/* For Admin Auth User Only */}
             <Route element={token && auth?<SidebarOutlet />:<Navigate to="/admin/login" />} >
