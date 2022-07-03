@@ -256,22 +256,19 @@ const PfDetail = () => {
             setAvatar('');
             setIsOpenPfChange(false);
             setIsRefresh(!isRefresh);
-            console.log('Okay');
+            setAvatarPreview(null);
 
         }else{
             setSubmitTextProfile('Upload');
             setIsUpdating({avatar: false});
-            console.log('failed');
         }
     }
+
     //Change Profile Form
     const changePfBody = <form onSubmit={handleChangeProfile} className='change-profile-form'>
         <FontAwesomeIcon onClick={()=>setIsOpenPfChange(false)} style={{fontSize: '30px', color: 'black', alignItems: 'right', cursor: 'pointer'}} icon={faXmark} />
         <h4 style={{textAlign: 'center'}}>Change Profile</h4>
         <br />
-         
-     
-        
         {avatarPreview === null ?
         <><div style={avatarPreviewStyle}></div><br /></>
         :<>
