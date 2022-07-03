@@ -7,6 +7,7 @@
 
 .pf-detail-avatar-parent, 
 .pf-detail-username-parent{
+    cursor: pointer;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -15,13 +16,7 @@
 }
 
 .pf-detail-avatar{
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background-image: url('./no-pf.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
+        
     
 }
 .pf-detail-update{
@@ -40,6 +35,14 @@
 .btn-submit{
     width: 100%;
     margin-top: 10px;
+    z-index: 2;
+}
+
+.btn-submit:disabled{
+    position: relative;
+    z-index: -1;
+    display: block;
+
 }
 #no-drop-btn{
     cursor: no-drop;
@@ -61,4 +64,40 @@
 
 .change-password-form{
     padding: 25px;
+}
+
+.change-profile-form{
+    padding: 25px;
+    position: relative;
+    min-width: 350px;
+    max-width: 500px;
+    width: 600px;
+}
+
+@media only screen and (max-width: 1366px) {
+    .change-profile-form{
+    
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 1080px) {
+    .change-profile-form{
+     
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 780px) {
+    .change-profile-form{
+        
+        width: 350px;
+    }
+}
+.cropper{
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: '#333';
+ 
 }

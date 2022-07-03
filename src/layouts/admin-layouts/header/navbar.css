@@ -100,13 +100,7 @@
 }
 
 .pf-picture{
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-image: url('./no-pf.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+   
 }
 .pf-name{
     display: flex;

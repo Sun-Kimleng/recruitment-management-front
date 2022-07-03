@@ -5,7 +5,9 @@
 }
 
 .sidebar, .sidebar-mini{
+    
     position: fixed;
+    
     top: 50px;
     left: 0px;
     right: 0px;
@@ -18,7 +20,7 @@
 }
 
 .sidebar-container{
-    width: 100%;
+    z-index: 3;
     height: 100%;
     
 }

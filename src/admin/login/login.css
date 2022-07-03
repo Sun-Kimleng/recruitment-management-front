@@ -2,19 +2,20 @@
 .login-form input:-webkit-autofill:hover, 
 .login-form input:-webkit-autofill:focus, 
 .login-form input:-webkit-autofill:active  {
-    -webkit-box-shadow: 0 0 0 30px var(--black) inset !important;
-    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: black !important;
 }
 
 .my-login{
     z-index: 1;
     position: relative;
-    top: 20px;
+    top: 0px;
     margin: 0 auto;
     width: 450px;
     padding: 50px;
     border-radius: 10px;
-    background-color: var(--black);
+    box-shadow: 0px 0px 5px;
+    background-color: white;
     
 }
 
@@ -26,22 +27,87 @@
     margin: 0 auto !important;
     width: 100%;
     color: white;
-
+    
 }
 
 .form-title{
     width: 100%;
-
-    color: white;
+    color: black;
     font-size: 20px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
 }
 
 .my-btn-submit{
     width: 100%;
+    background-color: #cf1111 !important;
+    color: white !important;
+    border: none !important;
 }
 
+.my-btn-submit:hover{
+    background-color: #A31010 !important;
+}
 
+.login-showpassword{
+    color: black !important;
+    align-items: center;
+}
 
+Input[type='checkbox']:checked{
+    border: none;
+    background-color: #cf1111;
+    color: white !important;
+    box-shadow: none !important;
+}
+
+Input[type='checkbox']:focus{
+    border-color: black;
+    box-shadow: none !important;
+}
+
+.company-logo-parent{
+    margin-top: -40px;
+    margin-bottom: -20px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.company-logo{
+    width: 150px;
+    
+}
+
+.forget-pw{
+    color: #A31010 !important;
+    text-align: center;
+}
+.forget-pw:hover{
+   opacity: 0.8;
+}
+
+.hrdivider {
+    position: relative;
+    margin-bottom: -10px;
+    margin-top: 0px;
+  }
+  .hrdivider span{
+    top: -29px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  .hrdivider span div {
+  
+    top: -40px;
+    background: white;
+    padding: 0 10px;
+    font-size: 16px;
+  }
 @media only screen and (max-width: 650px) {
     .my-login{
         width: 350px;

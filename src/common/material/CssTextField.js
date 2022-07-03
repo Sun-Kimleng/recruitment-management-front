@@ -7,26 +7,26 @@ export const CssTextField = styled(TextField)({
         color: 'gray',
     },
     '& input': {
-        color: 'white'
+        color: 'black'
     },
     '& label.Mui-focused': {
-      color: 'white',
+      color: 'black',
     },
     '& .MuiInput-underline:after': {
-      borderBottomColor: 'white',
+      borderBottomColor: 'black',
    
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: 'gray',
-        color: 'white',
+        color: 'black',
       },
       '&:hover fieldset': {
-        borderColor: 'white',
+        borderColor: 'black',
         
       },
       '&.Mui-focused fieldset': {
-        borderColor: 'white',
+        borderColor: 'black',
     
       },
     },

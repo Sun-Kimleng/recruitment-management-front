@@ -14,6 +14,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { apiHeadersWithToken } from '../../../api/apiHeaders';
 import LogoutIcon from '@mui/icons-material/Logout';
 import agb from './AGB.png';
+import noProfile from './no-pf.jpg';
 
 const Navbar = ({refLeftBar}) => {
     //Redux Toolkit
@@ -40,7 +41,15 @@ const Navbar = ({refLeftBar}) => {
         }
 
     }
-    
+    const profileStyle = {
+        backgroundImage: `url(${user.avatar === null? noProfile:ApiKey+'/'+user.avatar})`,
+        width: '60px',
+        height: '60px',
+        borderRadius: '50%',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+ 
+    }
 
     //refresh when something change
     useEffect(()=>{
@@ -96,7 +105,7 @@ if(token && auth){
     <Fragment><div onClick={()=>setTriggerPf(!triggerPf)} className='profile-trigger'><ArrowDropDownIcon className='arrow' /></div></Fragment>
     {triggerPf && <div className="pf-parent">
                 <Link to={`/admin/${user.user_id}`} className="pf-child" onClick={()=>setTriggerPf(false)}>
-                    <div className="pf-picture">
+                    <div style={profileStyle} className="pf-picture">
 
                     </div>
                     <div className="pf-name">

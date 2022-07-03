@@ -1,6 +1,6 @@
-import { TextField } from '@mui/material';
+import { Hidden, Slide, Slider, TextField } from '@mui/material';
 import axios from 'axios';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { Button, Form, Spinner } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -16,6 +16,11 @@ import AlertDialogSlide from '../../../common/material/DialogBox';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { dialogTextField } from '../../../common/material/dialogTextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import noProfile from './no-pf.jpg';
+import Cropper from 'react-easy-crop'
+import getCroppedImg from '../../../common/material/croppedImage';
+
+
 
 
 const Field = dialogTextField;
@@ -31,10 +36,13 @@ const PfDetail = () => {
     //All States
         //For Dialog Box
         const [isOpenPwChange, setIsOpenPwChange] = useState(false);
+        const [isOpenPfChange, setIsOpenPfChange] = useState(false);
+
     const [isPending, setIsPending] = useState(true);
     const [isShowPassword, setIsShowPassword]= useState(false);
     const [user, setUser] = useState(['']);
     const [isRefresh, setIsRefresh] = useState(false);
+    const [submitTextProfile, setSubmitTextProfile] = useState('Upload'); 
     const [submitTextEmail, setSubmitTextEmail] = useState("Change Email");
     const [submitTextResend, setSubmitTextResend] = useState("Resend email verification");
     const [submitTextUsername, setSubmitTextUsername] = useState("Save");
@@ -44,6 +52,7 @@ const PfDetail = () => {
         resend: false,
         username: false,
         password: false,
+        avatar: false,
     });
     const [error, setError]= useState(['']);
     const [inputs, setInputs]= useState({
@@ -51,7 +60,8 @@ const PfDetail = () => {
         email: '',
         
     });
-    
+    const [avatar, setAvatar] = useState('');
+    const [avatarPreview, setAvatarPreview] = useState(null);
     const [pwInputs, setPwInputs] = useState({
         oldPassword: '',
         newPassword: '',
@@ -59,6 +69,29 @@ const PfDetail = () => {
     });
     //Page Title
     SetPageTitle(user.username);
+
+    //Style
+    const avatarStyle = {
+        backgroundImage: `url(${user.avatar === null ? noProfile : ApiKey+'/'+user.avatar})`,
+        width: '100px',
+        height: '100px',
+        borderRadius: '50%',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+    }
+
+    const avatarPreviewStyle = {
+        width: '200px',
+        height: '200px',
+        borderRadius: '50%',
+        backgroundColor: 'grey',
+        backgroundImage: `url(${avatar == '' ? ApiKey+'/'+user.avatar : avatarPreview})`,
+        backgroundSize: 'cover',
+        overflow: 'Hidden',
+        backgroundRepeat: 'no-repeat',
+        margin: '0 auto',
+    }
+
     //handle inputs
     const handleUpdateInputs = (e)=> {
         return setInputs({...inputs, [e.target.name]: e.target.value});
@@ -167,7 +200,108 @@ const PfDetail = () => {
             setIsUpdating({password: false});
             
         }
+
+        if(response.data.status === 402){
+
+            setSubmitTextEmail('Change');
+            setIsUpdating({password: false});
+            setIsOpenPwChange(false);
+
+            Swal.fire(
+                'Forbidden',
+                response.data.message,
+                'warning'
+              )
+        }
     }
+    //Cropper
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
+    const [croppedPosition, setCroppedPosition] = useState(null);
+
+    //Handle Avatar Input
+    const handleAvatarInput = (e)=>{
+        //preview image
+            setAvatarPreview(URL.createObjectURL(e.target.files[0]));
+    }
+
+    const onCropComplete = async (croppedArea, croppedAreaPixels) => {
+        setCroppedPosition(croppedAreaPixels);
+        const {file, url} = await getCroppedImg(avatarPreview, croppedAreaPixels);
+         
+         const blobToFile = new File([file], file.name, {
+             type: file.type
+         });
+ 
+         setAvatar(blobToFile);
+        //  console.log(avatar)
+     }
+
+    useEffect(()=>{
+        
+    }, [isRefresh]);
+
+    //Handle Changing Profile picture;
+    const handleChangeProfile = async(e)=>{
+        e.preventDefault();
+        setIsUpdating({avatar: true});
+        setSubmitTextProfile('Uploading...');
+        const formData = new FormData();
+        formData.append('avatar', avatar);
+
+        const response = await axios.post(`${ApiKey}/api/user/change_avatar`, formData, apiHeadersWithToken(token));
+        
+        if(response.data.status === 200){
+            setSubmitTextProfile('Done');
+            setAvatar('');
+            setIsOpenPfChange(false);
+            setIsRefresh(!isRefresh);
+            console.log('Okay');
+
+        }else{
+            setSubmitTextProfile('Upload');
+            setIsUpdating({avatar: false});
+            console.log('failed');
+        }
+    }
+    //Change Profile Form
+    const changePfBody = <form onSubmit={handleChangeProfile} className='change-profile-form'>
+        <FontAwesomeIcon onClick={()=>setIsOpenPfChange(false)} style={{fontSize: '30px', color: 'black', alignItems: 'right', cursor: 'pointer'}} icon={faXmark} />
+        <h4 style={{textAlign: 'center'}}>Change Profile</h4>
+        <br />
+         
+     
+        
+        {avatarPreview === null ?
+        <><div style={avatarPreviewStyle}></div><br /></>
+        :<>
+        <div className='cropper'>
+            <Cropper
+                image={avatarPreview}
+                crop={crop}
+                zoom={zoom}
+                cropShape='round'
+                aspect={1}
+                onCropChange={setCrop}
+                onCropComplete={onCropComplete}
+                onZoomChange={setZoom}
+            />
+            </div>
+            <Slider
+            value={zoom}
+            min={1}
+            max={3}
+            style={{width: '100%'}}
+            step={0.1}
+            aria-labelledby="Zoom"
+            onChange={(e, zoom) => setZoom(zoom)}
+          />
+          </>}
+        <Form.Control type="file" onChange={handleAvatarInput}/><br />
+        <div><Button type='submit' variant="warning" style={{width: '100%'}}>{submitTextProfile}</Button></div>
+        <hr />
+    </form>
+
 
      //handle show or hide password
      const handleShowOrHidePassword = (e)=>{
@@ -177,11 +311,15 @@ const PfDetail = () => {
             setIsShowPassword(false);
         }
     }
-
+    
     //Change Password Form
     const changePwBody = <form onSubmit={handleChangePassword} className='change-password-form'>
     <FontAwesomeIcon onClick={()=>setIsOpenPwChange(false)} style={{fontSize: '30px', color: 'black', alignItems: 'right', cursor: 'pointer'}} icon={faXmark} />
      <h4 style={{textAlign: 'center'}}>Change Password</h4>
+     
+     <br />
+     <div style={{color: '#c9a202'}}>Warning! <span style={{color:'grey'}}>You have to logout all of other devices automatically after you changed your password.</span></div>
+     <br />
      <Field error={error.oldPassword?true:false} helperText={error.oldPassword?error.oldPassword:''} onChange={handlePasswordInputs} value={pwInputs.oldPassword} name='oldPassword' className='data-input' label="Old Password" type={isShowPassword?'text':'password'}/>
      <Field error={error.newPassword?true:false} helperText={error.newPassword?error.newPassword:''} onChange={handlePasswordInputs} value={pwInputs.newPassword} name='newPassword' className='data-input' label="New Password" type={isShowPassword?'text':'password'}/>
      <Field error={error.confirmNewPassword?true:false} helperText={error.confirmNewPassword?error.confirmNewPassword:''} onChange={handlePasswordInputs} value={pwInputs.confirmNewPassword} name='confirmNewPassword' className='data-input' label="Confirm New Password" type={isShowPassword?'text':'password'}/><br />
@@ -194,14 +332,19 @@ const PfDetail = () => {
     const handleClosePwChangeDialog = ()=>{
         setIsOpenPwChange(false);
     }
+    //Open Change Profile Dialog
+    const handleClosePfChangeDialog = ()=>{
+        setIsOpenPfChange(false);
+    }
 
     //refresh when something changes
     useEffect(()=>{
         handleFetch();
     }, [isRefresh]);
+
+    
         
                 return (
-                    
                     <div className="pf-detail">
                         <br />
                         {isPending === true?
@@ -216,10 +359,11 @@ const PfDetail = () => {
                         :
                         <Fragment>{user_id === user.user_id ?
                         <div className="pf-detail-parent">
-                            <div className="pf-detail-avatar-parent">
-                                <div className="pf-detail-avatar"></div>
-                            </div>
+                            <div onClick={()=>setIsOpenPfChange(true)} className="pf-detail-avatar-parent">
+                                <div style={avatarStyle} className="pf-detail-avatar"></div>
 
+                            </div>
+                            
                             <div className="pf-detail-username-parent">
                                 <div><b>{inputs.username}</b></div>
                             </div>
@@ -229,7 +373,7 @@ const PfDetail = () => {
                                 <form onSubmit={handleUpdateUsername}>
                                     <div>CHANGE USERNAME</div><br />
                                     <TextField error={error.username?true:false} helperText={error.username?error.username:''} type="text" name="username" value={inputs.username} onChange={handleUpdateInputs} className='pf-detail-input' label="Username" variant="outlined" />< br/>
-                                    <div id={isUpdating.username || inputs.username === user.username?'no-drop-btn':''}><Button disabled={isUpdating.username || inputs.username === user.username?true:false} type="submit" variant="primary" className="btn-submit">{submitTextUsername}</Button></div>
+                                    <div style={{display: 'block'}} id={isUpdating.username || inputs.username === user.username?'no-drop-btn':''}><Button disabled={isUpdating.username || inputs.username === user.username?true:false} type="submit" variant="primary" className="btn-submit">{submitTextUsername}</Button></div>
                                 </form><br />
 
                                 <form onSubmit={handleUpdateEmail}>
@@ -248,6 +392,7 @@ const PfDetail = () => {
                                     
                                 </div>
                                 {AlertDialogSlide(isOpenPwChange, changePwBody, handleClosePwChangeDialog)}
+                                {AlertDialogSlide(isOpenPfChange, changePfBody, handleClosePfChangeDialog)}
                             </div>
                         </div>
                         :<div>un-auth</div>}</Fragment>}
