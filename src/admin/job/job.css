@@ -1,5 +1,6 @@
 .job{
     margin-right: 10px;
+
 }
 
 .form{
@@ -124,4 +125,9 @@
 }
 .is-active{
    color: grey;
+}
+
+.dialog-relative{
+    position: relative;
+    z-index: 0;
 }

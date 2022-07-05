@@ -73,6 +73,7 @@ const PfDetail = () => {
     //Style
     const avatarStyle = {
         backgroundImage: `url(${user.avatar === null ? noProfile : ApiKey+'/'+user.avatar})`,
+        cursor: 'pointer',
         width: '100px',
         height: '100px',
         borderRadius: '50%',
@@ -339,8 +340,6 @@ const PfDetail = () => {
         handleFetch();
     }, [isRefresh]);
 
-    
-        
                 return (
                     <div className="pf-detail">
                         <br />
@@ -356,9 +355,8 @@ const PfDetail = () => {
                         :
                         <Fragment>{user_id === user.user_id ?
                         <div className="pf-detail-parent">
-                            <div onClick={()=>setIsOpenPfChange(true)} className="pf-detail-avatar-parent">
-                                <div style={avatarStyle} className="pf-detail-avatar"></div>
-
+                            <div  className="pf-detail-avatar-parent">
+                                <div onClick={()=>setIsOpenPfChange(true)} style={avatarStyle} className="pf-detail-avatar"></div>
                             </div>
                             
                             <div className="pf-detail-username-parent">

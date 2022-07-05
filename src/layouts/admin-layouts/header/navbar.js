@@ -99,9 +99,7 @@ const Navbar = ({refLeftBar}) => {
     }
     let rightBar;
 if(token && auth){
-    rightBar = (<div  ref={ref} className='right-nav' style={{marginRight: '15px'}}><NavLink to="" className="my-link"><div>about us</div></NavLink>
-    
-  
+    rightBar = (<div  ref={ref} className='right-nav' style={{marginRight: '15px'}}>  
     <Fragment><div onClick={()=>setTriggerPf(!triggerPf)} className='profile-trigger'><ArrowDropDownIcon className='arrow' /></div></Fragment>
     {triggerPf && <div className="pf-parent">
                 <Link to={`/admin/${user.user_id}`} className="pf-child" onClick={()=>setTriggerPf(false)}>
@@ -139,10 +137,16 @@ if(token && auth){
                     <div className='toggle-left-bar'onClick={()=>dispatch(setTriggerLeftBar())}><DensitySmallIcon className='toggle-left-bar'/></div>
                     </div>
                     <div className='left-nav-child'>
-                    <div><Link to="/" className="my-link"><img style={{width: '80px'}} src={agb} /></Link></div>
+                    <div><Link to="/" className="my-link"><img style={{width: '100px'}} src={agb} /></Link></div>
                     </div>
                 </div>
-
+                <div className='center-nav'>
+                    <div className="center-nav-child"><>Home</></div>
+                    <div className="center-nav-child"><>Contact</></div>
+                    <div className="center-nav-child"><>About us</></div>
+                    <div className="center-nav-child"><>Help</></div>
+                    
+                </div>
                 {/* <div className="right-nav"> */}
                     {rightBar}
                 {/* </div> */}

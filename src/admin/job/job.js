@@ -413,7 +413,7 @@ const Job = () => {
 
         <p>Total Record: {currentJob.length}</p>
     
-        <Pagination count={totalPage} page={currentPage} onChange={(e, value)=>{changePage(value)}} variant="outlined" shape="rounded"/>
+        <Pagination className='dialog-relative' count={totalPage} page={currentPage} onChange={(e, value)=>{changePage(value)}} variant="outlined" shape="rounded"/>
         
         {isCheck.length !== 0 &&<div className="selected-all-alert">
           <div className="selected-row"><div className="text">{isCheck.length} Rows selected</div></div>
