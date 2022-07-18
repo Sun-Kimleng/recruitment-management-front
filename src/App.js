@@ -1,4 +1,3 @@
-
 import {Routes, Route, Navigate} from 'react-router-dom';
 import AdminRegister from './admin/register/admin-register';
 import './App.css'
@@ -8,9 +7,7 @@ import Dashboard from './admin/dashboard/dashboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsOpen, setIsClose, setIsOpen } from './features/navbarSlice/navbarSlice';
 import SidebarOutlet from './layouts/admin-layouts/sidebar/sidebarOutlet';
-import { asyncCheckAuth, getAuth, getAuthToken,getEmailPasswordReset,getVerificationToken,setAuth,setAuthFalse,setAuthtoken, setAuthTrue, setAuthUsername } from './features/adminSlice/adminSlice';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCircleChevronDown} from '@fortawesome/free-solid-svg-icons'
+import {getAuth, getAuthToken,getEmailPasswordReset,getVerificationToken,setAuth,setAuthFalse,setAuthtoken, setAuthTrue, setAuthUsername } from './features/adminSlice/adminSlice';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
@@ -22,6 +19,7 @@ import ResetPassword from './admin/resetPassword/resetPassword';
 import Job from './admin/job/job';
 import PfDetail from './layouts/admin-layouts/header/PfDetail';
 import RedirectAfterPwChanged from './layouts/admin-layouts/header/redirectAfterPwChanged';
+import ManageUser from './admin/manageUser/manageUser';
 
 
 axios.defaults.withCredentials = true;
@@ -101,10 +99,11 @@ function App() {
 
           {/* For Admin Auth User Only */}
             <Route element={token && auth?<SidebarOutlet />:<Navigate to="/admin/login" />} >
-                
+              
                 <Route path="/admin/dashboard" element={<Dashboard />} />
                 <Route path="/admin/job" element={<Job />} />  
                 <Route path="/admin/:user_id" element={<PfDetail />}/>
+                <Route path="/admin/manage_user" element={<ManageUser />} />
 
             </Route>
           {/* For Auth User Only */}

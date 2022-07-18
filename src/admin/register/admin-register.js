@@ -26,8 +26,7 @@ const dispatch = useDispatch();
 const navigate = useNavigate();
 const error = useSelector(getRegisterError);
 
-
-
+SetPageTitle('');
 
 const [isShowPassword, setIsShowPassword]= useState(false);
 

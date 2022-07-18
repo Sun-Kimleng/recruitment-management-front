@@ -217,8 +217,8 @@ const Job = () => {
     const body = <form onSubmit={handleSubmit} className='job-form'>
        <FontAwesomeIcon onClick={handleClose} style={{fontSize: '30px', color: 'black', alignItems: 'right', cursor: 'pointer'}} icon={faXmark} />
         <h4 style={{textAlign: 'center'}}>Add Job</h4>
-        <Field error={error.name?true:false} helperText={error.name?error.name:''} onChange={handleInputs} value={inputs.name} name='name' className='data-input' label="Job Title" id="custom-css-outlined-input"/>
-        <Field error={error.description?true:false} helperText={error.description?error.description:''} onChange={handleInputs} value={inputs.description} name='description' className='data-input' label="Job Description" id="custom-css-outlined-input"/><br />
+        <Field error={error.name?true:false} helperText={error.name?error.name:''} onChange={handleInputs} value={inputs.name} name='name' className='data-input-job' label="Job Title" id="custom-css-outlined-input"/>
+        <Field error={error.description?true:false} helperText={error.description?error.description:''} onChange={handleInputs} value={inputs.description} name='description' className='data-input-job' label="Job Description" id="custom-css-outlined-input"/><br />
         <Button className="job-btn" type='submit' variant="primary" disabled={isSubmitting?true:false}>{isSubmitting?'Adding....':'Add Job'}</Button>
     </form>;
     

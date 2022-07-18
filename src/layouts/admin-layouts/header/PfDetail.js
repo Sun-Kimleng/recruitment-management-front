@@ -68,7 +68,7 @@ const PfDetail = () => {
         confirmNewPassword: '',
     });
     //Page Title
-    SetPageTitle(user.username);
+    SetPageTitle(user.username?user.username:'loading...');
 
     //Style
     const avatarStyle = {

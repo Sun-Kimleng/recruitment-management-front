@@ -53,7 +53,7 @@ const Login = () => {
         const response = await axios.post(`${ApiKey}${LoginUserKey}`, data, apiHeaders);
 
         if(response.data.status === 200){
-        
+            dispatch(setVerificationToken(''));
             dispatch(setAuthUsername(response.data.username));
             dispatch(setAuthtoken(response.data.token));
 
@@ -64,23 +64,36 @@ const Login = () => {
                 text: response.data.message,
             
               })
-             
+            setError('');
             setIsPending(false);
         }
-        if(response.data.status === 404){
+        if(response.data.status === 402){
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: response.data.message,
             
-              })
+              });
+              setError('');
               setIsPending(false);
         }
        
 
         if(response.data.status ===401){
             navigate('/admin/verification_email');
+            setError('');
             dispatch(setVerificationToken(response.data.token));
+        }
+
+        if(response.data.status === 204){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Your account has been deactivated. Ask admin to reactivate your account',
+            
+              })
+              setIsPending(false);
+              setError('');
         }
 
         if(response.data.status === 429){
@@ -89,6 +102,11 @@ const Login = () => {
             setIsTooManyAttempt(true);
         }else{
             setIsTooManyAttempt(false);
+        }
+
+        if(response.data.status === 404){
+            setError(response.data.error);
+            setIsPending(false);
         }
     }
 

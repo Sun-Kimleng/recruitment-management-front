@@ -97,10 +97,17 @@ const Navbar = ({refLeftBar}) => {
               })
         }
     }
+
+    const navbarPfStyle = {
+        backgroundImage: `url(${user.avatar === null? noProfile:ApiKey+'/'+user.avatar})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+    } 
+
     let rightBar;
 if(token && auth){
     rightBar = (<div  ref={ref} className='right-nav' style={{marginRight: '15px'}}>  
-    <Fragment><div onClick={()=>setTriggerPf(!triggerPf)} className='profile-trigger'><ArrowDropDownIcon className='arrow' /></div></Fragment>
+    <Fragment><div onClick={()=>setTriggerPf(!triggerPf)} className='profile-trigger' style={navbarPfStyle}></div></Fragment>
     {triggerPf && <div className="pf-parent">
                 <Link to={`/admin/${user.user_id}`} className="pf-child" onClick={()=>setTriggerPf(false)}>
                     <div style={profileStyle} className="pf-picture">
@@ -113,7 +120,7 @@ if(token && auth){
                 </Link>
                 <hr style={{color: 'grey', marginTop: '8px'}}/>
                 <div className="logout-parent">
-                    <div className="logout-child" ><div onClick={handleLogout}><LogoutIcon /> Logout</div></div>
+                    <div className="logout-child" ><div onClick={handleLogout}><LogoutIcon />Logout</div></div>
                 </div>
             </div>}    
     </div>);

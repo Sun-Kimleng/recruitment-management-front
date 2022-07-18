@@ -1,0 +1,100 @@
+.manage-user{
+    width: 100%;
+ 
+}
+select option[disabled] {
+    display: none;
+}
+
+.data-input-username{
+    width: 280px;
+}
+.data-input-pw{
+    width: 215px;
+    margin-top: 10px !important;
+}
+.data-input-role{
+    width: 150px
+}                      
+.data-input-role-update-user{
+    width: 150px
+}
+.data-input-email{
+    width: 435px;
+    margin-top: 10px !important;
+}
+.add-new-user-form{
+    width: 435px;
+    margin: 0 auto;
+}
+
+#no-drop{
+    cursor: no-drop;
+}
+.user-pf-parent{
+    padding-right: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.user-pf-child-left{
+    display: flex;
+    cursor: pointer;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.user-pf-child-right{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.user-pf-pic{
+    background-color: grey;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.user-pf-text{
+    margin-left: 5px;
+    font-size: 12px;  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+}
+
+.user-pf-actions{
+   
+}
+
+.edit-user-form{
+    padding: 20px;
+}
+
+@media only screen and (max-width: 780px) {
+    
+    .data-input-username{
+        width: 200px ;
+    }
+    .data-input-pw{
+        width: 168px;
+    }
+    .data-input-role{
+        width: 136px !important;
+    }
+    .data-input-email{
+        width: 341px;
+    }
+    .add-new-user-form{
+        width: 341px;
+    }
+    .data-input-role-update-user{
+        width: 100px !important;
+    }
+}

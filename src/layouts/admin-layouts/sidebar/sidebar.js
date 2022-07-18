@@ -113,8 +113,8 @@ const Sidebar = () => {
                                 }
                             <>
                                 {isTriggerSection === index ? 
-                                <FontAwesomeIcon style={{color: 'black'}}  icon={faCaretDown} />
-                                :<FontAwesomeIcon style={{color: 'black'}}  icon={faCaretRight} />
+                                <FontAwesomeIcon style={{color: 'black', marginTop: '3px'}}  icon={faCaretDown} />
+                                :<FontAwesomeIcon style={{color: 'black' , marginTop: '3px'}}  icon={faCaretRight} />
                                 }
                             </>
                         </div>
@@ -162,8 +162,8 @@ const Sidebar = () => {
                                 }
                             <>
                                 {isTriggerSection === index ? 
-                                <FontAwesomeIcon style={{color: 'black'}}  icon={faCaretDown} />
-                                :<FontAwesomeIcon style={{color: 'black'}}  icon={faCaretRight} />
+                                <FontAwesomeIcon style={{color: 'black', marginTop: '3px'}}  icon={faCaretDown} />
+                                :<FontAwesomeIcon style={{color: 'black', marginTop: '3px'}}  icon={faCaretRight} />
                                 }
                             </>
                         </div>
