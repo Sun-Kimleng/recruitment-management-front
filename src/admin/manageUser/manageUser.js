@@ -489,7 +489,7 @@ const ManageUser = () => {
                                 <>
                                 <FormControl>
                                 <InputLabel value={inputs.username} onChange={handleInputs} size="small" id="demo-simple-select-label">Role</InputLabel>
-                                <Select label='Role' error={error.role?true:false}  value={updateRole} onChange={(e)=>setUpdateRole(e.target.value)} size="small" name='role' className='data-input-role-update-user' style={{width: '150px'}}>
+                                <Select label='Role'  value={updateRole} onChange={(e)=>setUpdateRole(e.target.value)} size="small" name='role' className='data-input-role-update-user' style={{width: '150px'}}>
                                     <MenuItem onClick={()=>setRoleForUpdate('nfoqbehdk283')} value='select1'><div >Admin</div></MenuItem>
                                     <MenuItem onClick={()=>setRoleForUpdate('dbqqajdnbe921')} value='select2'><div >Editor</div></MenuItem>
                                     <MenuItem onClick={()=>setRoleForUpdate('zjeklsnbn323')} value='select3'><div >Moderator</div></MenuItem>
@@ -561,7 +561,7 @@ const ManageUser = () => {
                                 <>
                                 <FormControl>
                                 <InputLabel value={inputs.username} onChange={handleInputs} size="small" id="demo-simple-select-label">Role</InputLabel>
-                                <Select label='Role' error={error.role?true:false}  value={updateRole} onChange={(e)=>setUpdateRole(e.target.value)} size="small" name='role' className='data-input-role-update-user' style={{width: '150px'}}>
+                                <Select label='Role' value={updateRole} onChange={(e)=>setUpdateRole(e.target.value)} size="small" name='role' className='data-input-role-update-user' style={{width: '150px'}}>
                                     <MenuItem onClick={()=>setRoleForUpdate('nfoqbehdk283')} value='select1'><div >Admin</div></MenuItem>
                                     <MenuItem onClick={()=>setRoleForUpdate('dbqqajdnbe921')} value='select2'><div >Editor</div></MenuItem>
                                     <MenuItem onClick={()=>setRoleForUpdate('zjeklsnbn323')} value='select3'><div >Moderator</div></MenuItem>
@@ -635,7 +635,7 @@ const ManageUser = () => {
                                 <>
                                 <FormControl>
                                 <InputLabel value={inputs.username} onChange={handleInputs} size="small" id="demo-simple-select-label">Role</InputLabel>
-                                <Select label='Role' error={error.role?true:false}  value={updateRole} onChange={(e)=>setUpdateRole(e.target.value)} size="small" name='role' className='data-input-role-update-user' style={{width: '150px'}}>
+                                <Select label='Role' value={updateRole} onChange={(e)=>setUpdateRole(e.target.value)} size="small" name='role' className='data-input-role-update-user' style={{width: '150px'}}>
                                     <MenuItem onClick={()=>setRoleForUpdate('nfoqbehdk283')} value='select1'><div >Admin</div></MenuItem>
                                     <MenuItem onClick={()=>setRoleForUpdate('dbqqajdnbe921')} value='select2'><div >Editor</div></MenuItem>
                                     <MenuItem onClick={()=>setRoleForUpdate('zjeklsnbn323')} value='select3'><div >Moderator</div></MenuItem>

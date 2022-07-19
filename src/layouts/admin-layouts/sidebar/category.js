@@ -42,8 +42,8 @@ export const category = [
                 {
                     logo: faBorderAll,
                     color: '#02c4b1',
-                    title: 'Posting Job Form',
-                    link: '/admin/posting_job_form'
+                    title: 'Categories',
+                    link: '/admin/categories'
                 }
             ]   
         },
