@@ -1,0 +1,40 @@
+.candidate-header-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 3;
+    height: 50px;
+
+}
+
+.candidate-header-left .item,
+.candidate-header-center .item,
+.candidate-header-right .item
+{   
+    display: flex;
+    color: var(--blue);
+    flex-direction: column;
+    justify-content: center;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    padding: 0px 20px;
+    margin-left: 5px !important;
+    height: 50px;
+}
+
+.candidate-header-center,
+.candidate-header-left,
+.candidate-header-right
+{
+    display: flex;
+    flex-direction: row;
+}
+.active{
+    color: #a61124 !important;
+}

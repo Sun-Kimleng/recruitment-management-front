@@ -1,4 +1,4 @@
-import { faXmark, faChartLine, faCodeFork, faBriefcase, faJoint, faMap, faPeopleGroup, faPeopleRobbery, faPerson, faPeopleRoof, faPersonChalkboard, faBook, faFileContract, faIdCard, faGears, faUsersBetweenLines, faFileLines, faBorderAll, faCalendarCheck, faCheck, faFileCircleCheck, faTowerBroadcast, faCalendarDay, faPeopleLine, faFileCirclePlus, faUserGear, faCircleInfo} from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faChartLine, faCodeFork, faBriefcase, faJoint, faMap, faPeopleGroup, faPeopleRobbery, faPerson, faPeopleRoof, faPersonChalkboard, faBook, faFileContract, faIdCard, faGears, faUsersBetweenLines, faFileLines, faBorderAll, faCalendarCheck, faCheck, faFileCircleCheck, faTowerBroadcast, faCalendarDay, faPeopleLine, faFileCirclePlus, faUserGear, faCircleInfo, faBlog} from '@fortawesome/free-solid-svg-icons';
 
 export const category = [
         //1
@@ -88,14 +88,20 @@ export const category = [
                 {                 
                     logo: faBriefcase,
                     color: '#8a0a2a',
-                    title: 'Job',
-                    link: '/admin/job'
+                    title: 'Jobs',
+                    link: '/admin/jobs'
                 },
                 {
                     logo: faTowerBroadcast,
                     color: '#2a0a8a',
                     title: 'Posting Job',
                     link: '/admin/posting_job'
+                },
+                {
+                    logo: faBlog,
+                    color: '#e30553',
+                    title: 'Posts',
+                    link: '/admin/posts'
                 },
                 {
                     logo: faCalendarDay,

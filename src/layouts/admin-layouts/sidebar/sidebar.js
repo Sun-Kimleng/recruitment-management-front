@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { faXmark, faCaretDown, faCaretRight,faCodeFork, faChartLine} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fontWeight } from '@mui/system';
-
+import agb from './AGB.png';
 
 const Sidebar = () => {
     //Redux Toolkit
@@ -92,14 +92,18 @@ const Sidebar = () => {
                  {!isOpenLeftBar && 
                  <motion.div
                  ref={refLeftBar}
-                 className={isOpenLeftBar?'sidebar':'sidebar-mini'}
+                 className={isOpenLeftBar?'sidebar':'sidebar-mini sidebar-sm'}
                     variants={triggerLeftBarVariant}
                     initial='hide'
                     animate='show'
                     exit='invisible'
                  >
-                   <div className="sidebar-container"><br />
-                   <div className='close-trigger'><FontAwesomeIcon onClick={()=>dispatch(setTriggerLeftBarFalse(true))} style={{fontSize: '30px', color: 'black', alignItems: 'right', cursor: 'pointer', padding: '0px 10px'}} icon={faXmark} /></div>
+                    <div className='trigger-leftbar-header'>
+                        <div><img src={agb} width="80px"/></div>
+                        <div className='close-trigger'><FontAwesomeIcon onClick={()=>dispatch(setTriggerLeftBarFalse(true))} style={{fontSize: '30px', color: 'black', alignItems: 'right', cursor: 'pointer', padding: '0px 10px'}} icon={faXmark} />
+                        </div>
+                    </div>
+                        <div className="sidebar-container">
                     <br />
                     {category.map((cate, index)=>(
                         <div key={index}>

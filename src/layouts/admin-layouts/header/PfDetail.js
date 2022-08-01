@@ -318,9 +318,9 @@ const PfDetail = () => {
      <br />
      <div style={{color: '#c9a202'}}>Warning! <span style={{color:'grey'}}>You have to logout all of other devices automatically after you changed your password.</span></div>
      <br />
-     <Field error={error.oldPassword?true:false} helperText={error.oldPassword?error.oldPassword:''} onChange={handlePasswordInputs} value={pwInputs.oldPassword} name='oldPassword' className='data-input' label="Old Password" type={isShowPassword?'text':'password'}/>
-     <Field error={error.newPassword?true:false} helperText={error.newPassword?error.newPassword:''} onChange={handlePasswordInputs} value={pwInputs.newPassword} name='newPassword' className='data-input' label="New Password" type={isShowPassword?'text':'password'}/>
-     <Field error={error.confirmNewPassword?true:false} helperText={error.confirmNewPassword?error.confirmNewPassword:''} onChange={handlePasswordInputs} value={pwInputs.confirmNewPassword} name='confirmNewPassword' className='data-input' label="Confirm New Password" type={isShowPassword?'text':'password'}/><br />
+     <Field error={error.oldPassword?true:false} helperText={error.oldPassword?error.oldPassword:''} onChange={handlePasswordInputs} value={pwInputs.oldPassword} name='oldPassword' className='data-input-change-password' label="Old Password" type={isShowPassword?'text':'password'}/><br /> <br/>
+     <Field error={error.newPassword?true:false} helperText={error.newPassword?error.newPassword:''} onChange={handlePasswordInputs} value={pwInputs.newPassword} name='newPassword' className='data-input-change-password' label="New Password" type={isShowPassword?'text':'password'}/><br /> <br />
+     <Field error={error.confirmNewPassword?true:false} helperText={error.confirmNewPassword?error.confirmNewPassword:''} onChange={handlePasswordInputs} value={pwInputs.confirmNewPassword} name='confirmNewPassword' className='data-input-change-password' label="Confirm New Password" type={isShowPassword?'text':'password'}/><br /><br />
      <Form.Check onChange={handleShowOrHidePassword} type="checkbox" label="Show password" /><br />
      <div id={isUpdating.password?'no-drop-btn':''}><Button disabled={isUpdating.password?true:false}className="job-btn" type='submit' variant="primary">{submitTextPassword}</Button></div>
     {error.forbidden}

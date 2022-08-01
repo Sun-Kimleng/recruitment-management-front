@@ -65,7 +65,10 @@
 .successful-changed{
     color: green;
 }
-
+.data-input-change-password{
+    width: 100%;
+    margin-bottom: 50px;
+}
 .change-password-form{
     padding: 25px;
 }

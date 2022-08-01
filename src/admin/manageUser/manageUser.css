@@ -83,7 +83,7 @@ select option[disabled] {
         width: 200px ;
     }
     .data-input-pw{
-        width: 168px;
+        width: 100%;
     }
     .data-input-role{
         width: 136px !important;

@@ -20,6 +20,9 @@ import Job from './admin/job/job';
 import PfDetail from './layouts/admin-layouts/header/PfDetail';
 import RedirectAfterPwChanged from './layouts/admin-layouts/header/redirectAfterPwChanged';
 import ManageUser from './admin/manageUser/manageUser';
+import CandidateOutlet from './layouts/candidate-layouts/candidateOutlets';
+import HomePage from './candidate/homePage.js';
+import './variable.css';
 
 
 axios.defaults.withCredentials = true;
@@ -80,7 +83,7 @@ function App() {
         <Routes>
           
           {/* Admin Home Page */}
-          <Route path="/" element={<Home />}/>
+          <Route path="/admin/home" element={<Home />}/>
 
           {/* Login and Register */}
           <Route path="/admin/register" element={token && auth?<Navigate to="/admin/dashboard" replace/>:<AdminRegister />}/>
@@ -101,17 +104,23 @@ function App() {
             <Route element={token && auth?<SidebarOutlet />:<Navigate to="/admin/login" />} >
               
                 <Route path="/admin/dashboard" element={<Dashboard />} />
-                <Route path="/admin/job" element={<Job />} />  
+                <Route path="/admin/jobs" element={<Job />} />  
                 <Route path="/admin/:user_id" element={<PfDetail />}/>
                 <Route path="/admin/manage_user" element={<ManageUser />} />
 
             </Route>
+
+            {/* For Candidate User Only */}
+            <Route element={token && auth?<CandidateOutlet />:<Navigate to="/admin/login" />}>
+              <Route path="/" element={<HomePage />} />
+            </Route>
+
           {/* For Auth User Only */}
 
         </Routes>
         </div>
         {/* All Routes */}
-
+ 
         {/* Footer */}
 
         {/* Footer */}
