@@ -110,7 +110,7 @@ export default AdminSlice.reducer;
 
 export const getUser = (state)=>state.admin.users;
 export const getLoginError = (state)=>state.admin.loginError;
-export const getRegisterError =(state)=>state.admin.registerError;
+export const getRegisterError = (state)=>state.admin.registerError;
 export const getAuthUsername = (state)=>state.admin.auth_username;
 export const getAuthToken = (state)=>state.admin.auth_token;
 export const getAuth = (state)=>state.admin.auth;

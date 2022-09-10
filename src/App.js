@@ -10,7 +10,6 @@ import SidebarOutlet from './layouts/admin-layouts/sidebar/sidebarOutlet';
 import {getAuth, getAuthToken,getEmailPasswordReset,getVerificationToken,setAuth,setAuthFalse,setAuthtoken, setAuthTrue, setAuthUsername } from './features/adminSlice/adminSlice';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
 import { ApiKey } from './api/apiKey';
 import VerificationEmail from './admin/verificationEmail/verificationEmail';
 import Verifying from './admin/verificationEmail/verifying';
@@ -21,9 +20,14 @@ import PfDetail from './layouts/admin-layouts/header/PfDetail';
 import RedirectAfterPwChanged from './layouts/admin-layouts/header/redirectAfterPwChanged';
 import ManageUser from './admin/manageUser/manageUser';
 import CandidateOutlet from './layouts/candidate-layouts/candidateOutlets';
-import HomePage from './candidate/homePage.js';
+import HomePage from './candidate/Home/homePage.js';
 import './variable.css';
-
+import CandidateLogin from './candidate/Login/candidateLogin';
+import { getCandidateAuth } from './features/candidateSlice/candidateSlice';
+import FacebookLogin from './candidate/Login/facebookLogin';
+import UserDetails from './candidate/userDetails/userDetails';
+import MyTest from './myTest';
+import CandidateInfo from './candidate/Login/candidateInfo';
 
 axios.defaults.withCredentials = true;
 
@@ -33,8 +37,8 @@ function App() {
   const auth = useSelector(getAuth);
   const verifyToken = useSelector(getVerificationToken);
   const emailResetPassword = useSelector(getEmailPasswordReset);
-  
   const token = useSelector(getAuthToken);
+  const candidateToken = useSelector(getCandidateAuth);
    let snackbar;
    let triggerSnackbar;
 
@@ -59,8 +63,7 @@ function App() {
       dispatch(setAuthtoken(''));
       dispatch(setAuthUsername(''));
     });
-
-    }
+  }
 
     useEffect(()=>{
       checkAuthFunc();
@@ -81,14 +84,19 @@ function App() {
         {/* All Routes */}
         <div onClick={()=>dispatch(setIsClose())}>
         <Routes>
-          
+          <Route path="test" element={<MyTest />}/>
           {/* Admin Home Page */}
           <Route path="/admin/home" element={<Home />}/>
 
           {/* Login and Register */}
           <Route path="/admin/register" element={token && auth?<Navigate to="/admin/dashboard" replace/>:<AdminRegister />}/>
           <Route path="/admin/login" element={token && auth?<Navigate to="/admin/dashboard" replace/>:<Login />}/>
-          
+
+          {/* Login via Facebook */}
+          <Route path="/auth/facebook" element={<FacebookLogin />}/>
+
+          <Route path="/login" element={candidateToken ?<Navigate to="/" replace/>:<CandidateLogin />}/>
+        
           {/* Email Verification */}
           <Route path="/admin/verification_email" element={verifyToken?<VerificationEmail />:<Navigate to="/admin/login" replace/>}/>
           <Route path="/admin/verifying" element={verifyToken?<Verifying />:<Navigate to="/admin/login"/>}/>
@@ -111,10 +119,15 @@ function App() {
             </Route>
 
             {/* For Candidate User Only */}
-            <Route element={token && auth?<CandidateOutlet />:<Navigate to="/admin/login" />}>
+            <Route element={<CandidateOutlet />}>
               <Route path="/" element={<HomePage />} />
             </Route>
-
+            {/* Candiate Auth */}
+            <Route element={candidateToken ? <CandidateOutlet />:<Navigate to="/" />}>
+              <Route path="/candidate_info" element={<CandidateInfo />}/>
+              <Route path="/user/:user_id" element={<UserDetails />} />
+            </Route>
+            
           {/* For Auth User Only */}
 
         </Routes>

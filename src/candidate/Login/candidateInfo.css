@@ -1,0 +1,18 @@
+.candidate-info-title{
+    padding: 20px 0px;
+    text-align: center;
+    width: 100%;
+}
+
+.candidate-info-form{
+    width: 550px;
+    height: max-content;
+    padding: 20px 0px;
+    margin: 0 auto;
+}
+
+@media only screen and (max-width: 750px) {
+    .candidate-info-form{
+        width: 90%;
+    }
+}

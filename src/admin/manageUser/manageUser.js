@@ -402,7 +402,8 @@ const ManageUser = () => {
     }, [isRefresh]);
 
         return ( 
-            <div className="manage-user"><br />
+            <div className="manage-user"><br /><br />
+                <p>Configuration &#62; Manage User </p>
                 <h1 style={{textAlign: 'center'}}>Manage Users</h1><br />
                 <form onSubmit={handleCreateNewUser} autoComplete="new-password" className='add-new-user-form'>
                     <h5>REGISTER A NEW USER</h5>

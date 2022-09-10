@@ -1,4 +1,4 @@
-import { Hidden, Slide, Slider, TextField } from '@mui/material';
+import { Slider, TextField } from '@mui/material';
 import axios from 'axios';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import { Button, Form, Spinner } from 'react-bootstrap';
@@ -19,8 +19,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import noProfile from './no-pf.jpg';
 import Cropper from 'react-easy-crop'
 import getCroppedImg from '../../../common/material/croppedImage';
-
-
 
 
 const Field = dialogTextField;
@@ -355,7 +353,7 @@ const PfDetail = () => {
                         :
                         <Fragment>{user_id === user.user_id ?
                         <div className="pf-detail-parent">
-                            <div  className="pf-detail-avatar-parent">
+                            <div className="pf-detail-avatar-parent">
                                 <div onClick={()=>setIsOpenPfChange(true)} style={avatarStyle} className="pf-detail-avatar"></div>
                             </div>
                             
@@ -390,7 +388,7 @@ const PfDetail = () => {
                                 {AlertDialogSlide(isOpenPfChange, changePfBody, handleClosePfChangeDialog)}
                             </div>
                         </div>
-                        :<div>un-auth</div>}</Fragment>}
+                        :<h1>This Page Doesn't Exist</h1>}</Fragment>}
                         
                     </div>
                 );

@@ -115,24 +115,19 @@ const Login = () => {
     return ( 
         <div className="my-login">
             <form onSubmit={handleSubmit} className='login-form'>
-               
                 <div className='company-logo-parent'><div><img className="company-logo" src={agb} /></div></div>
-                <div className="form-title">Log in </div><br />
+                <div className="form-title">Login (Admin only)</div><br />
                 { isTooManyAttempt && <div style={{color: 'red', textAlign: 'center'}}>Too Many Attemps</div>}<br />
                 <MyTextField onChange={handleInput} error={error.email?true:false} helperText={error.email?error.email:''} value={inputs.email} className="text-field" name="email"  label="Enter your email" variant="outlined"/><br /><br />
                 <MyTextField onChange={handleInput} error={error.password? true:false} helperText={error.password?error.password:''}value={inputs.password} type={isShowPassword?'text':'password'} className="text-field" name="password"  label="Enter new password" variant="outlined"/><br /><br />
                 <Form.Check onChange={handleShowAndHidePassword} type="checkbox" label="Show password" className="login-showpassword"/><br />
                 <Button disabled={isPending?true:false} className="my-btn-submit" type="submit" variant="danger">{isPending?'Logging in.....':'Login'}</Button>
-                <br /><br />
-                <div className='forget-pw'><Link to="/admin/forget_password" style={{textDecoration: 'none', color: '#A31010 '}}>Forget password</Link><br /></div>
-              
-                <div className="hrdivider">
-                <hr/>
-                <span><div>OR</div></span>
-                </div>
-                <Button className="my-btn-submit" variant="danger"><Link to="/admin/register" style={{textDecoration: 'none', color: 'white',}}>Sign Up</Link></Button>
-                
-                
+                <br />
+                <hr />
+                <div className='forget-pw'><Link to="/admin/forget_password" style={{textDecoration: 'none', color: '#A31010 '}}>Forgot password</Link><br /></div>
+                <div></div>
+
+               
             </form>
         </div>
      );

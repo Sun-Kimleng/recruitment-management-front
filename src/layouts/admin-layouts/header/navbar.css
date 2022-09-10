@@ -117,9 +117,6 @@
     justify-content: space-around;
 }
 
-.pf-picture{
-   
-}
 .pf-name{
     display: flex;
     flex-direction: column;

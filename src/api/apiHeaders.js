@@ -19,9 +19,7 @@ export const apiHeadersWithToken = (token)=>{
     }
 }
 
-const Head = () => {
-
-    
+const Head = () => {    
 
     return ( <div className="head">
 
